@@ -5,7 +5,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import TextIO
 
+from radar.logger import get_logger
 from radar.models import ParseError, RadarConfig, RadarPacket, Violation
+
+logger = get_logger(__name__)
 
 
 @dataclass
@@ -75,6 +78,7 @@ class ReportWriter:
         self._emit(f"Parse errors: {self.parse_error_count}")
         self._emit(f"OVERALL RESULT: {overall}")
         self._emit("=" * 64)
+        logger.info("OVERALL RESULT: %s", overall)
         return RunResult(
             packets_parsed=self.packets_parsed,
             packets_passed=self.packets_passed,

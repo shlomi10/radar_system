@@ -1,3 +1,5 @@
+"""Tests for STATE, TARGETS, and Latency rule enforcement."""
+
 from __future__ import annotations
 
 import allure

@@ -1,3 +1,5 @@
+"""Tests for live report PASS/FAIL text and counters."""
+
 from __future__ import annotations
 
 from io import StringIO

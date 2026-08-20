@@ -1,3 +1,5 @@
+"""Tests for unsigned little-endian PAYLOAD decode."""
+
 from __future__ import annotations
 
 import allure

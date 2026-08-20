@@ -10,8 +10,11 @@ from collections.abc import Iterator
 from datetime import datetime
 from pathlib import Path
 
+from radar.logger import get_logger
 from radar.models import ParseError, RadarPacket
 from radar.payload_decoder import decode_payload
+
+logger = get_logger(__name__)
 
 FIELD_SEPARATOR = "|"
 KEY_VALUE_SEPARATOR = ":"
@@ -21,20 +24,31 @@ REQUIRED_FIELDS = ("PACKET_ID", "STATE", "TARGETS", "PAYLOAD")
 def iter_stream(path: str | Path) -> Iterator[RadarPacket | ParseError]:
     stream_path = Path(path)
     if not stream_path.is_file():
+        logger.error("Radar stream file not found: %s", stream_path)
         raise FileNotFoundError(f"Radar stream file not found: {stream_path}")
 
+    logger.info("Reading stream %s", stream_path)
     with stream_path.open(encoding="utf-8") as handle:
         for line_number, raw_line in enumerate(handle, start=1):
             line = raw_line.strip()
             if not line:
                 continue
             try:
-                yield parse_line(line, line_number)
-            except ValueError as exc:
+                packet = parse_line(line, line_number)
+                logger.info(
+                    "Parsed PACKET_ID %s line=%s state=%s targets=%s",
+                    packet.packet_id,
+                    line_number,
+                    packet.state,
+                    packet.targets,
+                )
+                yield packet
+            except ValueError as extra:
+                logger.warning("Parse error line %s: %s (raw: %s)", line_number, extra, line)
                 yield ParseError(
                     line_number=line_number,
                     raw_line=line,
-                    reason=str(exc),
+                    reason=str(extra),
                 )
 
 
@@ -77,8 +91,8 @@ def parse_line(line: str, line_number: int) -> RadarPacket:
 def _parse_timestamp(value: str) -> datetime:
     try:
         return datetime.strptime(value, "%H:%M:%S.%f")
-    except ValueError as exc:
-        raise ValueError(f"Invalid timestamp: {value}") from exc
+    except ValueError as extra:
+        raise ValueError(f"Invalid timestamp: {value}") from extra
 
 
 def _parse_key_value_fields(parts: list[str]) -> dict[str, str]:
@@ -100,5 +114,5 @@ def _parse_key_value_fields(parts: list[str]) -> dict[str, str]:
 def _parse_int(value: str, field_name: str) -> int:
     try:
         return int(value)
-    except ValueError as exc:
-        raise ValueError(f"{field_name} is not an integer: {value}") from exc
+    except ValueError as extra:
+        raise ValueError(f"{field_name} is not an integer: {value}") from extra

@@ -1,3 +1,5 @@
+"""Tests for CLI arguments, reports/radar output path, and exit codes."""
+
 from __future__ import annotations
 
 from pathlib import Path

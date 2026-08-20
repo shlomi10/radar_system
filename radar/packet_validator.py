@@ -8,7 +8,10 @@ from __future__ import annotations
 
 from datetime import datetime
 
+from radar.logger import get_logger
 from radar.models import RadarConfig, RadarPacket, Violation
+
+logger = get_logger(__name__)
 
 ZERO_TARGETS_STATES = frozenset({"INIT", "SCANNING"})
 MS_PER_DAY = 24 * 60 * 60 * 1000
@@ -19,6 +22,16 @@ def validate_packet(packet: RadarPacket, previous: RadarPacket | None, config: R
     violations.extend(_check_targets(packet, config))
     if previous is not None:
         violations.extend(_check_latency(packet, previous, config))
+    if violations:
+        for violation in violations:
+            logger.warning(
+                "PACKET_ID %s failed %s: %s",
+                packet.packet_id,
+                violation.rule,
+                violation.message,
+            )
+    else:
+        logger.info("PACKET_ID %s passed all rules", packet.packet_id)
     return violations
 
 

@@ -10,7 +10,10 @@ import argparse
 import sys
 from pathlib import Path
 
+from radar.logger import get_logger
 from radar.validation_pipeline import run_validation
+
+logger = get_logger(__name__)
 
 REPORTS_DIR = Path("reports")
 RADAR_REPORTS_DIR = REPORTS_DIR / "radar"
@@ -58,11 +61,14 @@ def run(config_path: str, stream_path: str, output_path: str | None = None):
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
+    logger.info("CLI start config=%s stream=%s output=%s", args.config, args.stream, args.output)
     try:
         run(args.config, args.stream, args.output)
-    except (FileNotFoundError, ValueError, OSError) as exc:
-        print(f"Error: {exc}", file=sys.stderr)
+    except (FileNotFoundError, ValueError, OSError) as extra:
+        logger.error("%s", extra)
+        print(f"Error: {extra}", file=sys.stderr)
         return 1
+    logger.info("CLI finished")
     return 0
 
 

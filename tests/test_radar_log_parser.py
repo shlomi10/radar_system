@@ -1,3 +1,5 @@
+"""Tests for line-by-line stream parsing and corrupted-line handling."""
+
 from __future__ import annotations
 
 import inspect

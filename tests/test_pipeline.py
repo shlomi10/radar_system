@@ -1,3 +1,5 @@
+"""End-to-end tests for the parse → validate → report pipeline."""
+
 from __future__ import annotations
 
 from pathlib import Path

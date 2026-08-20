@@ -2,45 +2,139 @@
 
 # 📡 Radar Stream Validator
 
-An automation tool for validating a radar system data stream.
+Catch bad radar packets in a live stream — parse, decode, enforce, report.
 
-![Python](https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![pytest](https://img.shields.io/badge/pytest-automation%20framework-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
-![Allure](https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white)
-![Standard Library](https://img.shields.io/badge/Runtime-stdlib%20only-0EA5E9?style=for-the-badge&logo=python&logoColor=white)
-![CLI](https://img.shields.io/badge/CLI-argparse-111827?style=for-the-badge&logo=windowsterminal&logoColor=white)
-![Radar Automation](https://img.shields.io/badge/Domain-Radar%20Automation-22C55E?style=for-the-badge&logo=target&logoColor=white)
-![Streaming](https://img.shields.io/badge/Streaming-O(1)%20memory-F59E0B?style=for-the-badge&logo=apachekafka&logoColor=white)
-![GitHub Actions](https://img.shields.io/badge/GitHub%20Actions-CI%20report-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)
-![venv](https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black)
-[![Allure Report](https://img.shields.io/badge/%E2%96%B6%20Allure%20report-FF6A00?style=for-the-badge)](https://shlomi10.github.io/radar_system/)
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="pytest">
+  <img src="https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white" alt="Allure">
+  <a href="https://shlomi10.github.io/radar_system/"><img src="https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Allure"></a>
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/Runtime-stdlib%20only-10B981?style=for-the-badge&logo=python&logoColor=white" alt="stdlib">
+  <img src="https://img.shields.io/badge/CLI-argparse-8B5CF6?style=for-the-badge&logo=windowsterminal&logoColor=white" alt="CLI">
+  <img src="https://img.shields.io/badge/Domain-Radar%20Automation-DC2626?style=for-the-badge&logo=target&logoColor=white" alt="Radar">
+  <img src="https://img.shields.io/badge/Streaming-O(1)%20memory-F59E0B?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Streaming">
+</p>
+<p align="center">
+  <img src="https://img.shields.io/badge/GitHub%20Actions-CI%20%2B%20Pages-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="Actions">
+  <img src="https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black" alt="venv">
+  <img src="https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white" alt="Logging">
+  <img src="https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Report">
+</p>
 
-The program loads a configuration file, parses radar log packets (including a raw hardware payload), enforces the validation rules, and prints a live summary report while reading.
+A CLI automation tool that loads `config.json`, reads a radar hardware log **line by line**, decodes an 8-byte hex `PAYLOAD` (unsigned little-endian Distance + Velocity), and enforces STATE / TARGETS / Latency rules while printing a live summary.
 
-Repository:
-
-```text
-https://github.com/shlomi10/radar_system
-```
-
-📊 **Allure report (kept up to date after every CI run on `main`):** [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)
+📦 Repo: [github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)  
+📊 Live Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)
 
 ---
 
 ## 📌 Overview
 
-Core flow:
-
 ```text
-config.json → parse stream → decode PAYLOAD → enforce rules → live report
+config.json  +  radar_stream.log  →  parse  →  decode  →  enforce  →  live report
 ```
 
-This project includes:
+What you get:
 
-- CLI validator (`main.py`) with `--config`, `--stream`, and `--output`
-- Modular runtime under `radar/` (stdlib only)
-- pytest suite with Allure annotations
-- GitHub Actions that publishes Allure to GitHub Pages, plus pytest and radar reports
+- 🖥️ CLI validator (`main.py`) — `--config`, `--stream`, `--output`
+- 🧩 Modular runtime under `radar/` — **stdlib only**
+- 🧪 56 pytest tests with Allure epic / feature / story / severity
+- 📝 Logger to `reports/logs/automation.log` — also attached to every Allure test
+- 🚀 GitHub Actions → Allure on GitHub Pages + radar report artifact
+
+---
+
+## 🏗️ Architecture
+
+Constant-memory pipeline: one previous packet for latency, no `readlines()`, no packet list.
+
+Runtime, tests, and Allure all sit on the same `radar/` package:
+
+```mermaid
+flowchart TB
+    subgraph IN["📥 Inputs"]
+        CFG["⚙️ config.json"]
+        LOG["📜 radar_stream.log"]
+    end
+
+    subgraph CORE["🧩 radar/"]
+        LOAD["config_reader"]
+        PARSE["radar_log_parser"]
+        PAY["payload_decoder"]
+        VAL["packet_validator"]
+        PIPE["validation_pipeline"]
+        REP["report_writer"]
+        LG["logger"]
+    end
+
+    subgraph RUNTIME["🖥️ CLI"]
+        MAIN["main.py<br/>argparse"]
+    end
+
+    subgraph TESTS["🧪 tests/  ·  pytest + Allure"]
+        PYT["python -m pytest"]
+        CONF["conftest.py<br/>Allure labels + test-log"]
+        SUITE["56 tests<br/>config · payload · parser<br/>validator · pipeline · report · CLI"]
+    end
+
+    subgraph OUT["📤 Outputs"]
+        LIVE["📺 Live radar report"]
+        FILE["📁 reports/radar/report.txt"]
+        ALOG["📒 reports/logs/automation.log"]
+        ARES["📊 reports/allure-results"]
+        PAGES["🌐 GitHub Pages Allure"]
+    end
+
+    CFG --> MAIN
+    LOG --> MAIN
+    MAIN --> PIPE
+    PIPE --> LOAD
+    LOAD --> PARSE
+    PARSE --> PAY
+    PAY --> VAL
+    VAL --> REP
+    PIPE --> LG
+    REP --> LIVE
+    REP --> FILE
+    LG --> ALOG
+
+    PYT --> CONF
+    CONF --> SUITE
+    SUITE --> CORE
+    SUITE --> ARES
+    ARES --> PAGES
+```
+
+pytest → Allure → GitHub Pages:
+
+```mermaid
+flowchart LR
+    T["🧪 pytest<br/>56 tests"] --> L["Allure annotations<br/>epic · feature · story · severity"]
+    T --> LOGS["test-log attached<br/>to every test"]
+    T --> R["reports/allure-results"]
+    R --> G["allure generate"]
+    G --> H["reports/allure-report"]
+    H --> CI["GitHub Actions<br/>on main"]
+    CI --> P["shlomi10.github.io/radar_system"]
+```
+
+Packet path inside the stream:
+
+```mermaid
+flowchart LR
+    L["Line n"] --> Q{Format OK?}
+    Q -->|no| E["ParseError<br/>continue"]
+    Q -->|yes| P["RadarPacket"]
+    P --> D["Distance + Velocity"]
+    D --> R{Rules}
+    R -->|pass| OK["✅ count++"]
+    R -->|fail| BAD["❌ STATE / TARGETS / LATENCY"]
+    E --> N["Next line"]
+    OK --> N
+    BAD --> N
+```
 
 ---
 
@@ -48,39 +142,20 @@ This project includes:
 
 ```text
 radar-validator/
-├── .github/
-│   └── workflows/
-│       └── ci.yml
+├── .github/workflows/ci.yml
 ├── radar/
-│   ├── __init__.py
 │   ├── config_reader.py
 │   ├── models.py
 │   ├── radar_log_parser.py
 │   ├── payload_decoder.py
 │   ├── packet_validator.py
 │   ├── report_writer.py
-│   └── validation_pipeline.py
+│   ├── validation_pipeline.py
+│   └── logger.py
 ├── tests/
-│   ├── conftest.py
-│   ├── helpers.py
-│   ├── test_config_reader.py
-│   ├── test_payload_decoder.py
-│   ├── test_radar_log_parser.py
-│   ├── test_packet_validator.py
-│   ├── test_pipeline.py
-│   ├── test_report_writer.py
-│   └── test_cli.py
-├── config/
-│   └── config.json
-├── data/
-│   └── radar_stream.log
-├── assets/
-│   └── radar-banner.png
-├── reports/
-│   ├── allure-results/
-│   ├── allure-report/
-│   ├── pytest/
-│   └── radar/
+├── config/config.json
+├── data/radar_stream.log
+├── assets/radar-banner.png
 ├── main.py
 ├── pytest.ini
 ├── requirements.txt
@@ -96,56 +171,52 @@ radar-validator/
 | `radar/packet_validator.py` | Enforce STATE, TARGETS, and Latency rules |
 | `radar/report_writer.py` | Live report while processing |
 | `radar/validation_pipeline.py` | Constant-memory processing pipeline |
+| `radar/logger.py` | File and console logging |
 | `main.py` | CLI entry point and runtime arguments |
-| `tests/conftest.py` | Shared pytest fixtures |
-| `tests/helpers.py` | Packet factory for unit tests |
-| `tests/test_config_reader.py` | Config loading tests |
-| `tests/test_payload_decoder.py` | Payload decode tests |
-| `tests/test_radar_log_parser.py` | Stream parsing tests |
-| `tests/test_packet_validator.py` | Rule enforcement tests |
-| `tests/test_pipeline.py` | End-to-end sample-log test |
-| `tests/test_report_writer.py` | Live report PASS/FAIL text |
-| `tests/test_cli.py` | argparse, output path, exit codes |
-| `pytest.ini` | pytest discovery, `pythonpath`, Allure results dir |
-| `requirements.txt` | pytest + allure-pytest |
-| `.github/workflows/ci.yml` | GitHub Actions: pytest, Allure, radar report |
+| `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
+| `.github/workflows/ci.yml` | pytest, Allure, radar report, GitHub Pages |
 
 ---
 
 ## 🛠 Tech stack
 
-- Python 3.14+
-- pytest
-- allure-pytest
-- Python standard library for runtime validation (`argparse`, `json`, `pathlib`, `datetime`)
+| Layer | Tools |
+| --- | --- |
+| Runtime | Python 3.14+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
+| Tests | pytest · allure-pytest |
+| CI | GitHub Actions · GitHub Pages |
+
+---
+
+## 🧾 Logging
+
+```text
+reports/logs/automation.log
+```
+
+`radar/logger.py` is used by config, payload, parser, validator, pipeline, report, and CLI.
+
+Every pytest test attaches its captured log to Allure as **`test-log`**.
 
 ---
 
 ## ✅ Prerequisites
 
-Install before running:
-
 - Python 3.14+
 - Git
-- Node.js / npm and Java only if you want to generate or open Allure HTML locally
+- Node.js / npm and Java only if you want to open Allure HTML locally
 
 ---
 
 ## 📦 Installation
 
-Create a virtual environment:
-
 ```bash
 python -m venv .venv
 ```
 
-Activate it on Windows PowerShell:
-
 ```powershell
 .\.venv\Scripts\Activate.ps1
 ```
-
-Install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -155,11 +226,9 @@ pip install -r requirements.txt
 
 ## ▶️ Running the validator
 
-File paths are passed to `main.py` through `argparse`:
-
-- `--config` — path to the JSON file, for example `config/config.json`
-- `--stream` — path to the log file, for example `data/radar_stream.log`
-- `--output` — writes the radar report under `reports/radar/`. With no filename, it is saved as `reports/radar/report.txt`. The report is also printed to the screen.
+- `--config` — JSON rules, for example `config/config.json`
+- `--stream` — log file, for example `data/radar_stream.log`
+- `--output` — writes under `reports/radar/` (default `reports/radar/report.txt`) and still prints to the screen
 
 ```bash
 python main.py --config config/config.json --stream data/radar_stream.log
@@ -171,60 +240,31 @@ python main.py --config config/config.json --stream data/radar_stream.log --outp
 
 ## 🧪 Running tests
 
-pytest is the automation framework. Runtime validation still uses the Python standard library only.
-
-Run all tests:
+pytest is the automation framework. Runtime validation still uses the standard library only.
 
 ```bash
 python -m pytest
-```
-
-Run with verbose output:
-
-```bash
 python -m pytest -v
-```
-
-Run a single module:
-
-```bash
 python -m pytest tests/test_packet_validator.py
 python -m pytest tests/test_pipeline.py
 ```
 
-The suite covers config loading, unsigned little-endian payload decode, line-by-line parsing (including a corrupted line that must not stop the stream), STATE / TARGETS / Latency rules, and an end-to-end run on the sample log.
+The suite covers config loading, unsigned little-endian payload decode, line-by-line parsing (including a corrupted line that must not stop the stream), STATE / TARGETS / Latency rules, report PASS/FAIL, CLI exit codes, and an end-to-end run on the sample log.
 
 ---
 
 ## 📊 Allure report
 
-Live CI report on GitHub Pages. Every run on `main` republishes it.
+Live CI report — republished on every `main` run:
 
 **https://shlomi10.github.io/radar_system/**
 
-`pytest.ini` already writes Allure results to `reports/allure-results`.
-
-Generate Allure results:
+Each test includes a `test-log` attachment.
 
 ```bash
 python -m pytest --alluredir=reports/allure-results
-```
-
-Generate an Allure HTML report:
-
-```bash
-allure generate reports/allure-results -o reports/allure-report
-```
-
-Open Allure report:
-
-```bash
+allure generate reports/allure-results -o reports/allure-report --clean
 allure open reports/allure-report
-```
-
-Serve Allure without generating a static folder:
-
-```bash
 allure serve reports/allure-results
 ```
 
@@ -232,27 +272,16 @@ allure serve reports/allure-results
 
 ## 📁 Runtime artifacts
 
-All generated reports land under `reports/`:
+Generated at runtime (gitignored):
 
 ```text
 reports/
 ├── allure-results/
 ├── allure-report/
 ├── pytest/
-│   ├── junit.xml
-│   └── output.txt
-└── radar/
-    └── report.txt
+├── radar/report.txt
+└── logs/automation.log
 ```
-
-| Path | Source |
-| --- | --- |
-| `reports/allure-results/` | pytest / allure-pytest |
-| `reports/allure-report/` | `allure generate` |
-| `reports/pytest/` | JUnit XML and pytest console output (CI) |
-| `reports/radar/report.txt` | `python main.py --output` |
-
-`reports/` is gitignored.
 
 ---
 
@@ -260,86 +289,76 @@ reports/
 
 Repo: [https://github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)
 
-Open **Actions → CI → Run workflow**, or push to `main`.
+Push to `main` or **Actions → CI → Run workflow**.
 
-The run page shows:
+One-time Pages setup: **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**.
 
-- pytest (`-v` output + JUnit XML)
-- Allure HTML (published to GitHub Pages)
-- radar stream validation (`reports/radar/report.txt`)
-
-When the job finishes on `main`, the Allure HTML report is republished so the live report stays up to date:
-
-**https://shlomi10.github.io/radar_system/**
-
-One-time setup: repo **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `gh-pages` / `/ (root)` → Save**.
-
-You can still download the `reports` artifact from the Actions run. The sample log is expected to finish with `OVERALL RESULT: FAIL`; that is a successful program run, not a CI crash.
+The sample log is expected to finish with `OVERALL RESULT: FAIL` — that is a successful program run, not a CI crash.
 
 ---
 
 ## 📡 Large-stream reading
 
-The stream is read as an iterator over the file object (`for raw_line in handle`). There is no `readlines()`, the whole file is not loaded into memory, and packets are not collected into a list. Memory keeps only the previous packet (for latency), the summary counters, and the current line. Violations are printed as soon as they are found.
+The stream is an iterator over the file object (`for raw_line in handle`). No `readlines()`, no full-file load, no packet list. Memory keeps the previous packet (latency), the summary counters, and the current line. Violations print as soon as they are found.
 
 ---
 
 ## 📄 File formats
 
-`config/config.json` defines the enforcement rules at runtime:
+`config/config.json`:
 
-- `system_mode` — system mode (must be a non-empty string)
-- `max_allowed_targets` — maximum allowed targets
-- `max_latency_ms` — maximum time gap between consecutive parsed packets
-- `allowed_states` — list of legal states
+- `system_mode` — non-empty string
+- `max_allowed_targets` — maximum targets
+- `max_latency_ms` — max gap between consecutive parsed packets
+- `allowed_states` — legal states
 
-A line in `data/radar_stream.log`:
+Log line:
 
 ```text
 HH:MM:SS.mmm | PACKET_ID:<id> | STATE:<state> | TARGETS:<n> | PAYLOAD:<16 hex chars>
 ```
 
-`PAYLOAD` is 8 bytes in hex, decoded as unsigned little-endian integers:
+`PAYLOAD` = 8 bytes hex, unsigned little-endian:
 
 - First 4 bytes → Distance (`uint32` LE)
 - Last 4 bytes → Velocity (`uint32` LE)
 
-Conversion uses `bytes.fromhex` and `int.from_bytes(..., "little")`.
+`bytes.fromhex` + `int.from_bytes(..., "little")`.
 
 ---
 
 ## 🛡️ Validation rules
 
-1. `STATE` must appear in `allowed_states`.
-2. `TARGETS` must not exceed `max_allowed_targets`.
-3. In `INIT` or `SCANNING`, the target count must be 0.
-4. The time gap between the current packet and the previous successfully parsed packet must not exceed `max_latency_ms`. The first packet is not checked for latency. Midnight wrap-around is handled.
+1. `STATE` must be in `allowed_states`
+2. `TARGETS` must not exceed `max_allowed_targets`
+3. `INIT` / `SCANNING` → `TARGETS` must be 0
+4. Latency vs the previous **successfully parsed** packet must not exceed `max_latency_ms` (first packet skipped; midnight wrap handled)
 
-A corrupted line is recorded as a parse error and processing continues. Latency is computed only between packets that were parsed successfully.
+A corrupted line is a parse error; the stream continues. Latency is never computed against a failed parse.
 
 ---
 
 ## 📈 Sample file results
 
-Passed: 1001, 1002, 1003.
+✅ Passed: **1001**, **1002**, **1003**
 
-Failed:
+❌ Failed:
 
-- 1004 — `TARGETS=7` exceeds the maximum of 5
-- 1005 — latency 180ms exceeds 150 (from 1004 at 10:00:00.400 to 1005 at 10:00:00.580)
-- 1006 — `INVALID_STATE` is not in `allowed_states`
-- Line 7 — malformed line, no PACKET_ID
-- 1007 — latency 250ms exceeds 150 (from 1006 at 10:00:00.650 to 1007 at 10:00:00.900)
+| Packet | Why |
+| --- | --- |
+| **1004** | `TARGETS=7` exceeds max 5 |
+| **1005** | latency 180ms > 150 |
+| **1006** | `INVALID_STATE` |
+| Line 7 | malformed line, no PACKET_ID |
+| **1007** | latency 250ms > 150 |
 
 `OVERALL RESULT: FAIL`
 
-Example payload: `000003E8` / `000000FA` → Distance=3892510720, Velocity=4194304000 (unsigned little-endian).
+Example payload: `000003E8` / `000000FA` → Distance=**3892510720**, Velocity=**4194304000** (unsigned LE).
 
 ---
 
 ## 🧷 Pytest configuration
-
-`pytest.ini`:
 
 ```ini
 [pytest]

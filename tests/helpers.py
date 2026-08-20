@@ -1,3 +1,5 @@
+"""Packet factory for unit tests that do not parse a real log line."""
+
 from __future__ import annotations
 
 from datetime import datetime
