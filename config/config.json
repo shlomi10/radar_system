@@ -1,0 +1,6 @@
+{
+  "system_mode": "AIR_TO_AIR",
+  "max_allowed_targets": 5,
+  "max_latency_ms": 150,
+  "allowed_states": ["INIT", "SCANNING", "TRACKING", "ERROR"]
+}

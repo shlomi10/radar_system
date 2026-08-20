@@ -1,0 +1,87 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+
+      - name: Install
+        run: python -m pip install -r requirements.txt
+
+      - name: pytest
+        run: |
+          mkdir -p reports/pytest
+          python -m pytest -v --tb=short --junitxml=reports/pytest/junit.xml | tee reports/pytest/output.txt
+
+      - name: Generate Allure report
+        if: always()
+        run: |
+          npm install -g allure@3.6.2
+          allure generate reports/allure-results -o reports/allure-report
+          python - <<'PY'
+          from pathlib import Path
+          index = Path("reports/allure-report/index.html")
+          html = index.read_text(encoding="utf-8")
+          if "<base " not in html.lower():
+              html = html.replace("<head>", '<head>\n    <base href="/radar_system/">', 1)
+          index.write_text(html, encoding="utf-8")
+          Path("reports/allure-report/404.html").write_text(html, encoding="utf-8")
+          PY
+          mkdir -p reports/allure-report/data/attachments
+          find reports/allure-results -type f \( -name '*.png' -o -name '*attachment*' \) -exec cp -n {} reports/allure-report/data/attachments/ \;
+
+      - name: Radar stream
+        if: success() || failure()
+        run: python main.py --config config/config.json --stream data/radar_stream.log --output report.txt
+
+      - name: Job summary
+        if: always()
+        run: |
+          {
+            echo "## pytest"
+            echo '```'
+            if [ -f reports/pytest/output.txt ]; then cat reports/pytest/output.txt; else echo "pytest did not produce a report"; fi
+            echo '```'
+            echo
+            echo "## Allure"
+            echo "Live report: https://shlomi10.github.io/radar_system/"
+            echo
+            echo "## Radar stream validation"
+            echo '```'
+            if [ -f reports/radar/report.txt ]; then cat reports/radar/report.txt; else echo "radar report was not produced"; fi
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: reports/
+
+      - name: Deploy Allure to GitHub Pages
+        if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        uses: peaceiris/actions-gh-pages@v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: reports/allure-report
+          force_orphan: true
+          enable_jekyll: false
