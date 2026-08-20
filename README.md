@@ -303,7 +303,17 @@ python -m pytest tests/test_packet_validator.py
 python -m pytest tests/test_pipeline.py
 ```
 
-The suite covers config loading, unsigned little-endian payload decode, line-by-line parsing (including a corrupted line that must not stop the stream), STATE / TARGETS / Latency rules, report PASS/FAIL, CLI exit codes, and an end-to-end run on the sample log.
+56 tests. Full titles live in Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)
+
+| File | Tests | What they cover |
+| --- | ---: | --- |
+| `tests/test_config_reader.py` | 16 | Load `config.json`; any non-empty `system_mode`; missing keys; wrong types; empty / blank `allowed_states` |
+| `tests/test_payload_decoder.py` | 9 | Unsigned little-endian Distance + Velocity; sample hex; invalid length / non-hex |
+| `tests/test_radar_log_parser.py` | 11 | Field split; corrupted line does not stop the stream; no `readlines()`; blank lines; bad timestamp / STATE / TARGETS / PACKET_ID |
+| `tests/test_packet_validator.py` | 9 | STATE, TARGETS, INIT/SCANNING=0, first-packet latency skip, max latency, midnight wrap, multiple violations |
+| `tests/test_pipeline.py` | 4 | Sample log FAIL (TARGETS, LATENCY, STATE, parse); clean stream PASS; parse error does not reset latency; shipped files |
+| `tests/test_report_writer.py` | 2 | `[PASS]` / `[FAIL]` live report and `WHAT FAILED` |
+| `tests/test_cli.py` | 5 | Required args; `--output` path; missing files exit 1; stream FAIL still exit 0 |
 
 ---
 
