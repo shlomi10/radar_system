@@ -50,7 +50,7 @@ What you get:
 
 ## 🏗️ Architecture
 
-Constant-memory pipeline: one previous packet for latency, no `readlines()`, no packet list.
+Constant-memory pipeline: one previous packet for latency, four integer counters, no `readlines()`, no packet list, no failure list.
 
 Runtime, tests, and Allure all sit on the same `radar/` package:
 
@@ -173,8 +173,8 @@ radar-validator/
 | `radar/radar_log_parser.py` | Line-by-line log parsing |
 | `radar/payload_decoder.py` | Unsigned little-endian Distance and Velocity |
 | `radar/packet_validator.py` | Enforce STATE, TARGETS, and Latency rules |
-| `radar/report_writer.py` | Live report while processing |
-| `radar/validation_pipeline.py` | Constant-memory processing pipeline |
+| `radar/report_writer.py` | Live report: write each result immediately, keep counters only |
+| `radar/validation_pipeline.py` | Constant-memory pipeline: previous packet + counters |
 | `radar/logger.py` | File and console logging |
 | `main.py` | CLI entry point and runtime arguments |
 | `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
@@ -312,7 +312,7 @@ python -m pytest tests/test_pipeline.py
 | `tests/test_radar_log_parser.py` | 11 | Field split; corrupted line does not stop the stream; no `readlines()`; blank lines; bad timestamp / STATE / TARGETS / PACKET_ID |
 | `tests/test_packet_validator.py` | 9 | STATE, TARGETS, INIT/SCANNING=0, first-packet latency skip, max latency, midnight wrap, multiple violations |
 | `tests/test_pipeline.py` | 4 | Sample log FAIL (TARGETS, LATENCY, STATE, parse); clean stream PASS; parse error does not reset latency; shipped files |
-| `tests/test_report_writer.py` | 2 | `[PASS]` / `[FAIL]` live report and `WHAT FAILED` |
+| `tests/test_report_writer.py` | 2 | `[PASS]` / `[FAIL]` live report and counters |
 | `tests/test_cli.py` | 5 | Required args; `--output` path; missing files exit 1; stream FAIL still exit 0 |
 
 ---
@@ -363,16 +363,15 @@ How to read the radar report in CI:
 
 - `[PASS]` — this log line parsed and passed every rule
 - `[FAIL]` — this log line is the problem (`Line N` is the line number in `radar_stream.log`)
-- indented `TARGETS` / `STATE` / `LATENCY` / `PARSE` — why that line failed
+- indented `TARGETS` / `STATE` / `LATENCY` / `PARSE` — why that line failed (printed immediately, not stored)
 - `Packets parsed` — how many packets were decoded (not how many passed)
-- `WHAT FAILED` — only the bad lines, skip this if you only want the problems
 - `OVERALL RESULT: FAIL` — at least one rule violation or parse error
 
 ---
 
 ## 📡 Large-stream reading
 
-The stream is an iterator over the file object (`for raw_line in handle`). No `readlines()`, no full-file load, no packet list. Memory keeps the previous packet (latency), the summary counters, and the current line. Violations print as soon as they are found.
+The stream is an iterator over the file object (`for raw_line in handle`). No `readlines()`, no full-file load, no packet list, no accumulated failure list. Memory keeps the previous packet (latency), four counters (`packets_parsed`, `packets_passed`, `violation_count`, `parse_error_count`), and the current line. Failures are written to the report as they happen.
 
 ---
 

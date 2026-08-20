@@ -1,6 +1,6 @@
 """Run the parse → validate → report pipeline with constant memory.
 
-Only the previous packet is kept, so the stream can be large.
+Only the previous packet and report counters are kept, so the stream can be large.
 """
 
 from __future__ import annotations

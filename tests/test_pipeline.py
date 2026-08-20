@@ -53,12 +53,15 @@ def test_sample_stream_reports_expected_failures(
     assert result.overall == "FAIL"
     assert "[PASS] Line 1 | PACKET_ID 1001" in report
     assert "[FAIL] Line 4 | PACKET_ID 1004" in report
-    assert "Line 4 | PACKET_ID 1004 | TARGETS |" in report
-    assert "Line 5 | PACKET_ID 1005 | LATENCY |" in report
-    assert "Line 6 | PACKET_ID 1006 | STATE |" in report
-    assert "Line 7 | PARSE |" in report
-    assert "Line 8 | PACKET_ID 1007 | LATENCY |" in report
-    assert "WHAT FAILED" in report
+    assert "TARGETS: TARGETS 7 exceeds max_allowed_targets 5" in report
+    assert "[FAIL] Line 5 | PACKET_ID 1005" in report
+    assert "LATENCY: Latency 180ms from PACKET_ID 1004 exceeds max_latency_ms 150" in report
+    assert "[FAIL] Line 6 | PACKET_ID 1006" in report
+    assert "STATE: STATE 'INVALID_STATE'" in report
+    assert "[FAIL] Line 7 | PARSE |" in report
+    assert "[FAIL] Line 8 | PACKET_ID 1007" in report
+    assert "LATENCY: Latency 250ms from PACKET_ID 1006 exceeds max_latency_ms 150" in report
+    assert "WHAT FAILED" not in report
     assert "OVERALL RESULT: FAIL" in report
 
 

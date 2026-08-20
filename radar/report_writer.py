@@ -28,7 +28,6 @@ class ReportWriter:
         self.violation_count = 0
         self.parse_error_count = 0
         self._pending_packet: RadarPacket | None = None
-        self._failures: list[str] = []
 
     def write_header(self, config: RadarConfig) -> None:
         self._emit("=" * 64)
@@ -52,10 +51,6 @@ class ReportWriter:
             f"[FAIL] Line {error.line_number} | PARSE | {error.reason}"
         )
         self._emit(f"         raw: {error.raw_line}")
-        self._failures.append(
-            f"Line {error.line_number} | PARSE | {error.reason} "
-            f"(raw: {error.raw_line})"
-        )
 
     def write_violations(self, violations: list[Violation]) -> None:
         packet = self._pending_packet
@@ -75,10 +70,6 @@ class ReportWriter:
         self.violation_count += len(violations)
         for violation in violations:
             self._emit(f"         {violation.rule}: {violation.message}")
-            self._failures.append(
-                f"Line {violation.line_number} | PACKET_ID {violation.packet_id} | "
-                f"{violation.rule} | {violation.message}"
-            )
 
     def write_footer(self) -> RunResult:
         overall = "PASS" if self.violation_count == 0 and self.parse_error_count == 0 else "FAIL"
@@ -88,13 +79,6 @@ class ReportWriter:
         self._emit(f"Packets that passed all rules: {self.packets_passed}")
         self._emit(f"Rule violations: {self.violation_count}")
         self._emit(f"Parse errors: {self.parse_error_count}")
-        if self._failures:
-            self._emit("")
-            self._emit("WHAT FAILED  (only the problem lines)")
-            self._emit("-" * 64)
-            for item in self._failures:
-                self._emit(item)
-            self._emit("")
         self._emit(f"OVERALL RESULT: {overall}")
         self._emit("=" * 64)
         logger.info("OVERALL RESULT: %s", overall)

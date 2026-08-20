@@ -72,7 +72,5 @@ def test_report_writer_fail(sample_config) -> None:
     assert "[FAIL] Line 4 | PACKET_ID 1004" in text
     assert "TARGETS: TARGETS 7 exceeds max_allowed_targets 5" in text
     assert "[FAIL] Line 7 | PARSE" in text
-    assert "Line 4 | PACKET_ID 1004 | TARGETS |" in text
-    assert "Line 7 | PARSE |" in text
-    assert "WHAT FAILED" in text
+    assert "WHAT FAILED" not in text
     assert "OVERALL RESULT: FAIL" in text
