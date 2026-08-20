@@ -33,6 +33,8 @@ def test_report_writer_pass(sample_config) -> None:
     assert result.overall == "PASS"
     assert result.packets_parsed == 1
     assert result.packets_passed == 1
+    assert "[PASS] Line 1 | PACKET_ID 1001" in text
+    assert "WHAT FAILED" not in text
     assert "OVERALL RESULT: PASS" in text
     assert "AIR_TO_AIR" in text
 
@@ -44,7 +46,7 @@ def test_report_writer_fail(sample_config) -> None:
     buffer = StringIO()
     writer = ReportWriter([buffer])
     writer.write_header(sample_config)
-    writer.write_packet(make_packet(packet_id=1004, targets=7))
+    writer.write_packet(make_packet(packet_id=1004, line_number=4, targets=7))
     writer.write_violations(
         [
             Violation(
@@ -67,6 +69,10 @@ def test_report_writer_fail(sample_config) -> None:
     assert result.violation_count == 1
     assert result.parse_error_count == 1
     assert result.packets_passed == 0
-    assert "PACKET_ID 1004: TARGETS" in text
-    assert "PARSE error" in text
+    assert "[FAIL] Line 4 | PACKET_ID 1004" in text
+    assert "TARGETS: TARGETS 7 exceeds max_allowed_targets 5" in text
+    assert "[FAIL] Line 7 | PARSE" in text
+    assert "Line 4 | PACKET_ID 1004 | TARGETS |" in text
+    assert "Line 7 | PARSE |" in text
+    assert "WHAT FAILED" in text
     assert "OVERALL RESULT: FAIL" in text

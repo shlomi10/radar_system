@@ -27,6 +27,8 @@ class ReportWriter:
         self.packets_passed = 0
         self.violation_count = 0
         self.parse_error_count = 0
+        self._pending_packet: RadarPacket | None = None
+        self._failures: list[str] = []
 
     def write_header(self, config: RadarConfig) -> None:
         self._emit("=" * 64)
@@ -37,45 +39,62 @@ class ReportWriter:
         self._emit(f"Max latency (ms): {config.max_latency_ms}")
         self._emit(f"Allowed states: {list(config.allowed_states)}")
         self._emit("")
-        self._emit("LIVE RESULTS")
+        self._emit("LIVE RESULTS  ([PASS] ok  |  [FAIL] problem in this log line)")
         self._emit("-" * 64)
 
     def write_packet(self, packet: RadarPacket) -> None:
         self.packets_parsed += 1
-        self._emit(
-            f"PACKET_ID {packet.packet_id} | {packet.timestamp.strftime('%H:%M:%S.%f')[:-3]} | "
-            f"STATE={packet.state} | TARGETS={packet.targets} | "
-            f"DISTANCE={packet.distance} | VELOCITY={packet.velocity}"
-        )
+        self._pending_packet = packet
 
     def write_parse_error(self, error: ParseError) -> None:
         self.parse_error_count += 1
         self._emit(
-            f"Line {error.line_number}: PARSE error - {error.reason} "
+            f"[FAIL] Line {error.line_number} | PARSE | {error.reason}"
+        )
+        self._emit(f"         raw: {error.raw_line}")
+        self._failures.append(
+            f"Line {error.line_number} | PARSE | {error.reason} "
             f"(raw: {error.raw_line})"
         )
 
     def write_violations(self, violations: list[Violation]) -> None:
+        packet = self._pending_packet
+        if packet is None:
+            return
+        self._pending_packet = None
+        status = "PASS" if not violations else "FAIL"
+        self._emit(
+            f"[{status}] Line {packet.line_number} | PACKET_ID {packet.packet_id} | "
+            f"{packet.timestamp.strftime('%H:%M:%S.%f')[:-3]} | "
+            f"STATE={packet.state} | TARGETS={packet.targets} | "
+            f"DISTANCE={packet.distance} | VELOCITY={packet.velocity}"
+        )
         if not violations:
             self.packets_passed += 1
             return
         self.violation_count += len(violations)
         for violation in violations:
-            packet_label = (
-                f"PACKET_ID {violation.packet_id}"
-                if violation.packet_id is not None
-                else f"Line {violation.line_number}"
+            self._emit(f"         {violation.rule}: {violation.message}")
+            self._failures.append(
+                f"Line {violation.line_number} | PACKET_ID {violation.packet_id} | "
+                f"{violation.rule} | {violation.message}"
             )
-            self._emit(f"{packet_label}: {violation.rule} - {violation.message}")
 
     def write_footer(self) -> RunResult:
         overall = "PASS" if self.violation_count == 0 and self.parse_error_count == 0 else "FAIL"
         self._emit("")
         self._emit("=" * 64)
-        self._emit(f"Packets processed successfully: {self.packets_parsed}")
+        self._emit(f"Packets parsed: {self.packets_parsed}")
         self._emit(f"Packets that passed all rules: {self.packets_passed}")
         self._emit(f"Rule violations: {self.violation_count}")
         self._emit(f"Parse errors: {self.parse_error_count}")
+        if self._failures:
+            self._emit("")
+            self._emit("WHAT FAILED  (only the problem lines)")
+            self._emit("-" * 64)
+            for item in self._failures:
+                self._emit(item)
+            self._emit("")
         self._emit(f"OVERALL RESULT: {overall}")
         self._emit("=" * 64)
         logger.info("OVERALL RESULT: %s", overall)

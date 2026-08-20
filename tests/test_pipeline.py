@@ -51,11 +51,14 @@ def test_sample_stream_reports_expected_failures(
     assert result.packets_parsed == 7
     assert result.packets_passed == 3
     assert result.overall == "FAIL"
-    assert "PACKET_ID 1004: TARGETS" in report
-    assert "PACKET_ID 1005: LATENCY" in report
-    assert "PACKET_ID 1006: STATE" in report
-    assert "PACKET_ID 1007: LATENCY" in report
-    assert "PARSE error" in report
+    assert "[PASS] Line 1 | PACKET_ID 1001" in report
+    assert "[FAIL] Line 4 | PACKET_ID 1004" in report
+    assert "Line 4 | PACKET_ID 1004 | TARGETS |" in report
+    assert "Line 5 | PACKET_ID 1005 | LATENCY |" in report
+    assert "Line 6 | PACKET_ID 1006 | STATE |" in report
+    assert "Line 7 | PARSE |" in report
+    assert "Line 8 | PACKET_ID 1007 | LATENCY |" in report
+    assert "WHAT FAILED" in report
     assert "OVERALL RESULT: FAIL" in report
 
 

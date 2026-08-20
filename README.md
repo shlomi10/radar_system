@@ -20,6 +20,7 @@ Catch bad radar packets in a live stream — parse, decode, enforce, report.
   <img src="https://img.shields.io/badge/GitHub%20Actions-CI%20%2B%20Pages-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="Actions">
   <img src="https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black" alt="venv">
   <img src="https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white" alt="Logging">
+  <img src="https://img.shields.io/badge/Docker-optional-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Report">
 </p>
 
@@ -43,6 +44,7 @@ What you get:
 - 🧪 56 pytest tests with Allure epic / feature / story / severity
 - 📝 Logger to `reports/logs/automation.log` — also attached to every Allure test
 - 🚀 GitHub Actions → Allure on GitHub Pages + radar report artifact
+- 🐳 Optional Docker image — validator + pytest without a local venv
 
 ---
 
@@ -159,6 +161,8 @@ radar-validator/
 ├── main.py
 ├── pytest.ini
 ├── requirements.txt
+├── Dockerfile
+├── .dockerignore
 └── README.md
 ```
 
@@ -175,6 +179,8 @@ radar-validator/
 | `main.py` | CLI entry point and runtime arguments |
 | `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
 | `.github/workflows/ci.yml` | pytest, Allure, radar report, GitHub Pages |
+| `Dockerfile` | Python 3.14-slim image: install deps, run `main.py` by default |
+| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, and caches out of the image |
 
 ---
 
@@ -185,6 +191,7 @@ radar-validator/
 | Runtime | Python 3.14+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
 | Tests | pytest · allure-pytest |
 | CI | GitHub Actions · GitHub Pages |
+| Container | Docker |
 
 ---
 
@@ -204,6 +211,7 @@ Every pytest test attaches its captured log to Allure as **`test-log`**.
 
 - Python 3.14+
 - Git
+- Docker Desktop (daemon running) only if you want to run the image
 - Node.js / npm and Java only if you want to open Allure HTML locally
 
 ---
@@ -234,6 +242,52 @@ pip install -r requirements.txt
 python main.py --config config/config.json --stream data/radar_stream.log
 python main.py --config config/config.json --stream data/radar_stream.log --output
 python main.py --config config/config.json --stream data/radar_stream.log --output summary.txt
+```
+
+---
+
+## 🐳 Docker
+
+The image is `python:3.14-slim`. It installs `requirements.txt`, copies `config/`, `data/`, `radar/`, `tests/`, `main.py`, and `pytest.ini`, then runs the validator.
+
+Default command:
+
+```text
+python main.py --config config/config.json --stream data/radar_stream.log
+```
+
+Start Docker Desktop first. If the daemon is off, `docker build` fails with a pipe / engine error.
+
+Build:
+
+```bash
+docker build -t radar-system .
+```
+
+Validate the sample stream (stdout only):
+
+```bash
+docker run --rm radar-system
+```
+
+Write the report (and logs) to `reports/` on the host:
+
+```powershell
+docker run --rm -v ${PWD}/reports:/app/reports radar-system --config config/config.json --stream data/radar_stream.log --output
+```
+
+Same idea in bash / Git Bash:
+
+```bash
+docker run --rm -v "$PWD/reports:/app/reports" radar-system --config config/config.json --stream data/radar_stream.log --output
+```
+
+`--output` still prints to the screen. The file lands at `reports/radar/report.txt`. Extra args after the image name replace the default `CMD`.
+
+Run pytest inside the image:
+
+```bash
+docker run --rm --entrypoint python radar-system -m pytest -v
 ```
 
 ---
@@ -295,6 +349,15 @@ One-time Pages setup: **Settings → Pages → Deploy from a branch → `gh-page
 
 The sample log is expected to finish with `OVERALL RESULT: FAIL` — that is a successful program run, not a CI crash.
 
+How to read the radar report in CI:
+
+- `[PASS]` — this log line parsed and passed every rule
+- `[FAIL]` — this log line is the problem (`Line N` is the line number in `radar_stream.log`)
+- indented `TARGETS` / `STATE` / `LATENCY` / `PARSE` — why that line failed
+- `Packets parsed` — how many packets were decoded (not how many passed)
+- `WHAT FAILED` — only the bad lines, skip this if you only want the problems
+- `OVERALL RESULT: FAIL` — at least one rule violation or parse error
+
 ---
 
 ## 📡 Large-stream reading
@@ -340,17 +403,19 @@ A corrupted line is a parse error; the stream continues. Latency is never comput
 
 ## 📈 Sample file results
 
-✅ Passed: **1001**, **1002**, **1003**
+Log file: `data/radar_stream.log`
+
+✅ Passed: Line 1 **1001**, Line 2 **1002**, Line 3 **1003**
 
 ❌ Failed:
 
-| Packet | Why |
-| --- | --- |
-| **1004** | `TARGETS=7` exceeds max 5 |
-| **1005** | latency 180ms > 150 |
-| **1006** | `INVALID_STATE` |
-| Line 7 | malformed line, no PACKET_ID |
-| **1007** | latency 250ms > 150 |
+| Log line | Packet | Why |
+| --- | --- | --- |
+| 4 | **1004** | `TARGETS=7` exceeds max 5 |
+| 5 | **1005** | latency 180ms from 1004 > 150 |
+| 6 | **1006** | `INVALID_STATE` not in allowed_states |
+| 7 | — | malformed line, no PACKET_ID |
+| 8 | **1007** | latency 250ms from 1006 > 150 |
 
 `OVERALL RESULT: FAIL`
 
@@ -379,6 +444,10 @@ python -m pytest -v
 python -m pytest --alluredir=reports/allure-results
 allure generate reports/allure-results -o reports/allure-report --clean
 allure open reports/allure-report
+docker build -t radar-system .
+docker run --rm radar-system
+docker run --rm -v ${PWD}/reports:/app/reports radar-system --output
+docker run --rm --entrypoint python radar-system -m pytest -v
 ```
 
 ---
