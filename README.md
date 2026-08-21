@@ -21,6 +21,7 @@ Catch bad radar packets in a live stream — parse, decode, enforce, report.
   <img src="https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black" alt="venv">
   <img src="https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white" alt="Logging">
   <img src="https://img.shields.io/badge/Docker-optional-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/UI-radar%20console-1AFFC2?style=for-the-badge&logo=windowsterminal&logoColor=black" alt="UI">
   <img src="https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Report">
 </p>
 
@@ -45,6 +46,7 @@ What you get:
 - 📝 Logger to `reports/logs/automation.log` — also attached to every Allure test
 - 🚀 GitHub Actions → Allure on GitHub Pages + radar report artifact
 - 🐳 Optional Docker image — validator + pytest without a local venv
+- 🖥️ Optional local console (`ui/`) — PPI scope + live PASS/FAIL table
 
 ---
 
@@ -158,11 +160,13 @@ radar-validator/
 ├── config/config.json
 ├── data/radar_stream.log
 ├── assets/radar-banner.png
+├── assets/radar-console.png
 ├── main.py
 ├── pytest.ini
 ├── requirements.txt
 ├── Dockerfile
 ├── .dockerignore
+├── ui/
 └── README.md
 ```
 
@@ -180,7 +184,8 @@ radar-validator/
 | `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
 | `.github/workflows/ci.yml` | pytest, Allure, radar report, GitHub Pages |
 | `Dockerfile` | Python 3.14-slim image: install deps, run `main.py` by default |
-| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, and caches out of the image |
+| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, `ui/`, and caches out of the image |
+| `ui/` | Local radar console (stdlib HTTP) — same `radar/` rules |
 
 ---
 
@@ -192,6 +197,7 @@ radar-validator/
 | Tests | pytest · allure-pytest |
 | CI | GitHub Actions · GitHub Pages |
 | Container | Docker |
+| UI | `ui/` — stdlib HTTP server + HTML/CSS/JS |
 
 ---
 
@@ -289,6 +295,29 @@ Run pytest inside the image:
 ```bash
 docker run --rm --entrypoint python radar-system -m pytest -v
 ```
+
+---
+
+## 🖥️ Radar console UI
+
+Optional local console in `ui/`. It calls the same `radar/` parser and validator as the CLI — no extra packages.
+
+```bash
+python -m ui.app
+```
+
+Opens [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Default inputs are `config/config.json` and `data/radar_stream.log`. You can also paste a config and a stream.
+
+![Radar console](assets/radar-console.png)
+
+What you see:
+
+- **PPI scope** — teal blip = PASS, red blip = FAIL
+- **Status** — parsed / passed / failed / violations / parse errors
+- **LIVE RESULTS** — `[PASS]` / `[FAIL]` per log line, with the reason
+- Filters: ALL / PASS / FAIL
+
+This view is for a sample-sized stream (capped at 5000 events). Large streams stay on the CLI, which keeps O(1) memory.
 
 ---
 
@@ -457,6 +486,7 @@ docker build -t radar-system .
 docker run --rm radar-system
 docker run --rm -v ${PWD}/reports:/app/reports radar-system --output
 docker run --rm --entrypoint python radar-system -m pytest -v
+python -m ui.app
 ```
 
 ---

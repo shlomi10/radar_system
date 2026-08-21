@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Radar Stream Console</title>
+    <link rel="stylesheet" href="/static/styles.css" />
+  </head>
+  <body>
+    <div class="crt"></div>
+    <header class="topbar">
+      <div class="brand">
+        <span class="pulse"></span>
+        <div>
+          <p class="eyebrow">AIR-TO-AIR  ·  STREAM VALIDATOR</p>
+          <h1>RADAR CONSOLE</h1>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="overall" id="overall">STANDBY</div>
+        <button type="button" id="runBtn">INITIATE SCAN</button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="panel inputs">
+        <h2>INPUTS</h2>
+        <label>Config path
+          <input id="configPath" type="text" value="config/config.json" />
+        </label>
+        <label>Stream path
+          <input id="streamPath" type="text" value="data/radar_stream.log" />
+        </label>
+        <details>
+          <summary>Paste config / stream instead</summary>
+          <label>config.json
+            <textarea id="configText" rows="7" placeholder='{"system_mode":"AIR_TO_AIR", ...}'></textarea>
+          </label>
+          <label>radar_stream.log
+            <textarea id="streamText" rows="7" placeholder="HH:MM:SS.mmm | PACKET_ID:..."></textarea>
+          </label>
+        </details>
+        <div class="config-box" id="configBox">Load a scan to show rules.</div>
+      </section>
+
+      <section class="panel scope">
+        <h2>PPI SCOPE</h2>
+        <canvas id="scope" width="640" height="640"></canvas>
+        <p class="hint" id="scopeHint">Blips = packets. Teal = PASS. Red = FAIL.</p>
+      </section>
+
+      <section class="panel stats">
+        <h2>STATUS</h2>
+        <div class="cards">
+          <article><span>Parsed</span><strong id="cParsed">0</strong></article>
+          <article><span>Passed</span><strong id="cPassed">0</strong></article>
+          <article><span>Failed</span><strong id="cFailed">0</strong></article>
+          <article><span>Violations</span><strong id="cViolations">0</strong></article>
+          <article><span>Parse errors</span><strong id="cParse">0</strong></article>
+          <article><span>Events</span><strong id="cEvents">0</strong></article>
+        </div>
+        <p class="error" id="errorBox" hidden></p>
+        <p class="hint" id="truncBox" hidden>Stream truncated at 5000 events for the console.</p>
+      </section>
+
+      <section class="panel table-wrap">
+        <div class="table-head">
+          <h2>LIVE RESULTS</h2>
+          <div class="filters" id="filters">
+            <button type="button" data-filter="ALL" class="active">ALL</button>
+            <button type="button" data-filter="PASS">PASS</button>
+            <button type="button" data-filter="FAIL">FAIL</button>
+          </div>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th></th>
+                <th>Line</th>
+                <th>PACKET_ID</th>
+                <th>Time</th>
+                <th>STATE</th>
+                <th>TARGETS</th>
+                <th>Distance</th>
+                <th>Velocity</th>
+                <th>Why</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="/static/app.js"></script>
+  </body>
+</html>

@@ -6,5 +6,6 @@ __pycache__/
 *.py[cod]
 reports/
 assets/
+ui/
 README.md
 .gitignore
