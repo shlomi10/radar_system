@@ -54,7 +54,7 @@ What you get:
 
 Constant-memory pipeline: one previous packet for latency, four integer counters, no `readlines()`, no packet list, no failure list.
 
-Runtime, tests, and Allure all sit on the same `radar/` package:
+Runtime, tests, Allure, and the optional console all sit on the same `radar/` package:
 
 ```mermaid
 flowchart TB
@@ -77,6 +77,12 @@ flowchart TB
         MAIN["main.py<br/>argparse"]
     end
 
+    subgraph UI["🖥️ ui/  ·  optional console"]
+        APP["python -m ui.app<br/>stdlib HTTP :8765"]
+        RUN["ui/runner.py"]
+        VIEW["PPI scope + LIVE RESULTS"]
+    end
+
     subgraph TESTS["🧪 tests/  ·  pytest + Allure"]
         PYT["python -m pytest"]
         CONF["conftest.py<br/>Allure labels + test-log"]
@@ -89,6 +95,7 @@ flowchart TB
         ALOG["📒 reports/logs/automation.log"]
         ARES["📊 reports/allure-results"]
         PAGES["🌐 GitHub Pages Allure"]
+        CONSOLE["🌐 http://127.0.0.1:8765/"]
     end
 
     CFG --> MAIN
@@ -103,6 +110,15 @@ flowchart TB
     REP --> LIVE
     REP --> FILE
     LG --> ALOG
+
+    CFG --> APP
+    LOG --> APP
+    APP --> RUN
+    RUN --> LOAD
+    RUN --> PARSE
+    RUN --> VAL
+    RUN --> VIEW
+    VIEW --> CONSOLE
 
     PYT --> CONF
     CONF --> SUITE
