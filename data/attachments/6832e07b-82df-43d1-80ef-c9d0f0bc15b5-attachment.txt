@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_config_reader.py::test_load_config_rejects_missing_key[max_allowed_targets]
+ERROR    radar_system.radar.config_reader:config_reader.py:69 Missing required config key: max_allowed_targets
+INFO     radar_system.tests:conftest.py:58 END tests/test_config_reader.py::test_load_config_rejects_missing_key[max_allowed_targets]

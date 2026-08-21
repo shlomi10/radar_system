@@ -1,0 +1,3 @@
+2026-08-21 07:14:38,886 | INFO | radar_system.tests | START tests/test_packet_validator.py::test_invalid_state_is_reported
+2026-08-21 07:14:38,886 | WARNING | radar_system.radar.packet_validator | PACKET_ID 1006 failed STATE: STATE 'INVALID_STATE' is not in allowed_states ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-08-21 07:14:38,887 | INFO | radar_system.tests | END tests/test_packet_validator.py::test_invalid_state_is_reported

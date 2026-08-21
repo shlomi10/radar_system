@@ -1,0 +1,1 @@
+{"id":"95a55d4a35d46329b299d8ca5b7ad763","fullName":"tests.test_config_reader#test_load_config_rejects_wrong_types","name":"Wrong value types are rejected","status":"passed","testResultsByEnv":{"default":"0a34632670c886ffe4450aa420628c54"}}

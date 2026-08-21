@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_parse_line_extracts_fields
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=3892510720 velocity=4194304000
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_parse_line_extracts_fields

@@ -1,0 +1,1 @@
+{"id":"bf1ea42c89142873dd8bdbc02f96dad1","fullName":"tests.test_radar_log_parser#test_parser_does_not_use_readlines","name":"Parser does not load the whole file with readlines","status":"passed","testResultsByEnv":{"default":"13a980dc9175639241656b7cd4fa6316"}}

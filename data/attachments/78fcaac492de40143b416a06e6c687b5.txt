@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_report_writer.py::test_report_writer_pass
+INFO     radar_system.radar.report_writer:report_writer.py:84 OVERALL RESULT: PASS
+INFO     radar_system.tests:conftest.py:58 END tests/test_report_writer.py::test_report_writer_pass

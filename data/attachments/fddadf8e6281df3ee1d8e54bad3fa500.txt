@@ -1,0 +1,3 @@
+2026-08-21 07:14:38,855 | INFO | radar_system.tests | START tests/test_config_reader.py::test_load_config_rejects_non_object_root
+2026-08-21 07:14:38,856 | ERROR | radar_system.radar.config_reader | Config root must be a JSON object
+2026-08-21 07:14:38,857 | INFO | radar_system.tests | END tests/test_config_reader.py::test_load_config_rejects_non_object_root

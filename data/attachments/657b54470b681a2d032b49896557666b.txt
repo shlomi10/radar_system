@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_config_reader.py::test_load_config_rejects_blank_allowed_states
+INFO     radar_system.tests:conftest.py:58 END tests/test_config_reader.py::test_load_config_rejects_blank_allowed_states

@@ -1,0 +1,1 @@
+{"id":"6236be33475b5e0db07c7bd8112aa4b0","fullName":"tests.test_config_reader#test_load_config_rejects_non_object_root","name":"Config root must be a JSON object","status":"passed","testResultsByEnv":{"default":"5ac50b44d2d2e3d79573c778b20026f6"}}

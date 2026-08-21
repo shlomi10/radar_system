@@ -1,0 +1,8 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_iter_stream_continues_after_corrupted_line
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:30 Reading stream /tmp/pytest-of-runner/pytest-0/test_iter_stream_continues_aft0/radar_stream.log
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+WARNING  radar_system.radar.radar_log_parser:radar_log_parser.py:47 Parse error line 2: Line does not match expected packet format (raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT)
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1002 line=3 state=SCANNING targets=0
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_iter_stream_continues_after_corrupted_line

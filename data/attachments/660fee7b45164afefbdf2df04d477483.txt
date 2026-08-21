@@ -1,0 +1,4 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_multiple_violations_on_one_packet
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 99 failed STATE: STATE 'INVALID_STATE' is not in allowed_states ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 99 failed TARGETS: TARGETS 9 exceeds max_allowed_targets 5
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_multiple_violations_on_one_packet

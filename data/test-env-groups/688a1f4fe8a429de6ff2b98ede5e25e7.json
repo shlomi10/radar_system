@@ -1,0 +1,1 @@
+{"id":"688a1f4fe8a429de6ff2b98ede5e25e7","fullName":"tests.test_pipeline#test_sample_stream_reports_expected_failures","name":"Sample log reports TARGETS, LATENCY, STATE, and parse errors","status":"passed","testResultsByEnv":{"default":"e177c9dc6333c8845f668f6981a131b3"}}

@@ -1,0 +1,1 @@
+{"id":"165e91162a07c6cf7497264d597797c0","fullName":"tests.test_config_reader#test_load_config_rejects_empty_allowed_states","name":"Empty allowed_states is rejected","status":"passed","testResultsByEnv":{"default":"6163e7eed387ceb2006c6eb99b067b83"}}

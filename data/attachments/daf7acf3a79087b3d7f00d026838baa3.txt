@@ -1,0 +1,14 @@
+2026-08-21 07:14:38,953 | INFO | radar_system.tests | START tests/test_pipeline.py::test_parse_error_does_not_reset_latency_previous
+2026-08-21 07:14:38,954 | INFO | radar_system.radar.config_reader | Loaded config from /tmp/pytest-of-runner/pytest-0/test_parse_error_does_not_rese0/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-08-21 07:14:38,954 | INFO | radar_system.radar.validation_pipeline | Starting validation stream=/tmp/pytest-of-runner/pytest-0/test_parse_error_does_not_rese0/radar_stream.log output=/tmp/pytest-of-runner/pytest-0/test_parse_error_does_not_rese0/report.txt
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.radar_log_parser | Reading stream /tmp/pytest-of-runner/pytest-0/test_parse_error_does_not_rese0/radar_stream.log
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.packet_validator | PACKET_ID 1001 passed all rules
+2026-08-21 07:14:38,955 | WARNING | radar_system.radar.radar_log_parser | Parse error line 2: Line does not match expected packet format (raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT)
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1002 line=3 state=SCANNING targets=0
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.packet_validator | PACKET_ID 1002 passed all rules
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.report_writer | OVERALL RESULT: FAIL
+2026-08-21 07:14:38,955 | INFO | radar_system.radar.validation_pipeline | Validation finished overall=FAIL parsed=2 passed=2 violations=0 parse_errors=1
+2026-08-21 07:14:38,956 | INFO | radar_system.tests | END tests/test_pipeline.py::test_parse_error_does_not_reset_latency_previous

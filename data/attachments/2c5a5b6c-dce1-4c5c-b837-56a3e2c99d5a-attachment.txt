@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:-1 | PAYLOAD:0000000000000000-TARGETS must be >= 0]
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:-1 | PAYLOAD:0000000000000000-TARGETS must be >= 0]

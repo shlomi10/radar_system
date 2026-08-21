@@ -1,0 +1,6 @@
+2026-08-21 07:14:38,814 | INFO | radar_system.tests | START tests/test_cli.py::test_main_missing_files_returns_1
+2026-08-21 07:14:38,815 | INFO | radar_system.main | CLI start config=missing.json stream=missing.log output=None
+2026-08-21 07:14:38,815 | ERROR | radar_system.radar.config_reader | Config file not found: missing.json
+2026-08-21 07:14:38,815 | ERROR | radar_system.main | Config file not found: missing.json
+Error: Config file not found: missing.json
+2026-08-21 07:14:38,815 | INFO | radar_system.tests | END tests/test_cli.py::test_main_missing_files_returns_1

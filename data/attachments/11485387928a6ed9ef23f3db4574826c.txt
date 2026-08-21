@@ -1,0 +1,5 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_cli.py::test_main_missing_files_returns_1
+INFO     radar_system.main:main.py:64 CLI start config=missing.json stream=missing.log output=None
+ERROR    radar_system.radar.config_reader:config_reader.py:21 Config file not found: missing.json
+ERROR    radar_system.main:main.py:68 Config file not found: missing.json
+INFO     radar_system.tests:conftest.py:58 END tests/test_cli.py::test_main_missing_files_returns_1

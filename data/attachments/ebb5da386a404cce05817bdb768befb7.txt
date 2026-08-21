@@ -1,0 +1,2 @@
+2026-08-21 07:14:38,883 | INFO | radar_system.tests | START tests/test_config_reader.py::test_load_config_rejects_blank_allowed_states
+2026-08-21 07:14:38,884 | INFO | radar_system.tests | END tests/test_config_reader.py::test_load_config_rejects_blank_allowed_states

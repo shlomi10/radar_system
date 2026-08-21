@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_config_reader.py::test_load_config_rejects_bool_as_int
+ERROR    radar_system.radar.config_reader:config_reader.py:73 Config key 'max_allowed_targets' must be of type int
+INFO     radar_system.tests:conftest.py:58 END tests/test_config_reader.py::test_load_config_rejects_bool_as_int

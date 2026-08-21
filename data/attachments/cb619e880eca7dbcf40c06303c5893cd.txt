@@ -1,0 +1,2 @@
+2026-08-21 07:14:38,798 | INFO | radar_system.tests | START tests/test_cli.py::test_parse_args_requires_config_and_stream
+2026-08-21 07:14:38,805 | INFO | radar_system.tests | END tests/test_cli.py::test_parse_args_requires_config_and_stream

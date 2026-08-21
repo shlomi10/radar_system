@@ -1,0 +1,4 @@
+2026-08-21 07:14:38,904 | INFO | radar_system.tests | START tests/test_packet_validator.py::test_allowed_states_pass
+2026-08-21 07:14:38,904 | INFO | radar_system.radar.packet_validator | PACKET_ID 1 passed all rules
+2026-08-21 07:14:38,904 | INFO | radar_system.radar.packet_validator | PACKET_ID 2 passed all rules
+2026-08-21 07:14:38,905 | INFO | radar_system.tests | END tests/test_packet_validator.py::test_allowed_states_pass

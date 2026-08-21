@@ -1,0 +1,16 @@
+2026-08-21 07:14:38,949 | INFO | radar_system.tests | START tests/test_pipeline.py::test_clean_stream_reports_overall_pass
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.config_reader | Loaded config from /tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.validation_pipeline | Starting validation stream=/tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/radar_stream.log output=/tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/report.txt
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.radar_log_parser | Reading stream /tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/radar_stream.log
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.packet_validator | PACKET_ID 1001 passed all rules
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1002 line=2 state=SCANNING targets=0
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.packet_validator | PACKET_ID 1002 passed all rules
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=1000 velocity=250
+2026-08-21 07:14:38,950 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1003 line=3 state=TRACKING targets=2
+2026-08-21 07:14:38,951 | INFO | radar_system.radar.packet_validator | PACKET_ID 1003 passed all rules
+2026-08-21 07:14:38,951 | INFO | radar_system.radar.report_writer | OVERALL RESULT: PASS
+2026-08-21 07:14:38,951 | INFO | radar_system.radar.validation_pipeline | Validation finished overall=PASS parsed=3 passed=3 violations=0 parse_errors=0
+2026-08-21 07:14:38,952 | INFO | radar_system.tests | END tests/test_pipeline.py::test_clean_stream_reports_overall_pass

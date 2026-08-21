@@ -1,0 +1,1 @@
+{"id":"b720e47d4be4d63faba2bf140c160dec","fullName":"tests.test_cli#test_parse_args_requires_config_and_stream","name":"--config and --stream are required","status":"passed","testResultsByEnv":{"default":"c04a819c98845a92bb84b0c208be8562"}}

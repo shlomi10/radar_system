@@ -1,0 +1,1 @@
+{"id":"e0f78bc659642fa51be4fcf418f03919","fullName":"tests.test_cli#test_parse_args_output_flag_uses_default_report","name":"--output without a path defaults to reports/radar/report.txt","status":"passed","testResultsByEnv":{"default":"720edf652fbcad4ef3056cd5255de2de"}}

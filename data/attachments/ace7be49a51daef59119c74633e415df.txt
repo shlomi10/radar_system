@@ -1,0 +1,16 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_cli.py::test_main_valid_run_returns_0
+INFO     radar_system.main:main.py:64 CLI start config=/tmp/pytest-of-runner/pytest-0/test_main_valid_run_returns_00/config.json stream=/tmp/pytest-of-runner/pytest-0/test_main_valid_run_returns_00/radar_stream.log output=None
+INFO     radar_system.radar.config_reader:config_reader.py:56 Loaded config from /tmp/pytest-of-runner/pytest-0/test_main_valid_run_returns_00/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+INFO     radar_system.radar.validation_pipeline:validation_pipeline.py:27 Starting validation stream=/tmp/pytest-of-runner/pytest-0/test_main_valid_run_returns_00/radar_stream.log output=None
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:30 Reading stream /tmp/pytest-of-runner/pytest-0/test_main_valid_run_returns_00/radar_stream.log
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 1001 passed all rules
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1004 line=2 state=TRACKING targets=7
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1004 failed TARGETS: TARGETS 7 exceeds max_allowed_targets 5
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1004 failed LATENCY: Latency 300ms from PACKET_ID 1001 exceeds max_latency_ms 150
+INFO     radar_system.radar.report_writer:report_writer.py:84 OVERALL RESULT: FAIL
+INFO     radar_system.radar.validation_pipeline:validation_pipeline.py:51 Validation finished overall=FAIL parsed=2 passed=1 violations=2 parse_errors=0
+INFO     radar_system.main:main.py:71 CLI finished
+INFO     radar_system.tests:conftest.py:58 END tests/test_cli.py::test_main_valid_run_returns_0

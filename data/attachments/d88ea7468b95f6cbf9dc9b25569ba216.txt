@@ -1,0 +1,2 @@
+2026-08-21 07:14:38,983 | INFO | radar_system.tests | START tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:-1 | PAYLOAD:0000000000000000-TARGETS must be >= 0]
+2026-08-21 07:14:38,984 | INFO | radar_system.tests | END tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:-1 | PAYLOAD:0000000000000000-TARGETS must be >= 0]

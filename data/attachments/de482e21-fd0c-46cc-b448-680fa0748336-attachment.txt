@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_targets_cannot_exceed_maximum
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1004 failed TARGETS: TARGETS 7 exceeds max_allowed_targets 5
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_targets_cannot_exceed_maximum

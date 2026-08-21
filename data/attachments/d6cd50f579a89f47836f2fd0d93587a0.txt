@@ -1,0 +1,2 @@
+2026-08-21 07:14:38,810 | INFO | radar_system.tests | START tests/test_cli.py::test_resolve_output_bare_filename_goes_under_reports_radar
+2026-08-21 07:14:38,813 | INFO | radar_system.tests | END tests/test_cli.py::test_resolve_output_bare_filename_goes_under_reports_radar

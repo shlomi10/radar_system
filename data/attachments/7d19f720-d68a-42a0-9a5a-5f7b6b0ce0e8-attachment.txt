@@ -1,0 +1,45 @@
+2026-08-21 07:14:38,941 | INFO | radar_system.tests | START tests/test_pipeline.py::test_sample_stream_reports_expected_failures
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.config_reader | Loaded config from /tmp/pytest-of-runner/pytest-0/test_sample_stream_reports_exp0/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.validation_pipeline | Starting validation stream=/tmp/pytest-of-runner/pytest-0/test_sample_stream_reports_exp0/radar_stream.log output=/tmp/pytest-of-runner/pytest-0/test_sample_stream_reports_exp0/report.txt
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.radar_log_parser | Reading stream /tmp/pytest-of-runner/pytest-0/test_sample_stream_reports_exp0/radar_stream.log
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.packet_validator | PACKET_ID 1001 passed all rules
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1002 line=2 state=SCANNING targets=0
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.packet_validator | PACKET_ID 1002 passed all rules
+2026-08-21 07:14:38,943 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=3892510720 velocity=4194304000
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1003 line=3 state=TRACKING targets=2
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.packet_validator | PACKET_ID 1003 passed all rules
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=3490119680 velocity=738263040
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1004 line=4 state=TRACKING targets=7
+2026-08-21 07:14:38,944 | WARNING | radar_system.radar.packet_validator | PACKET_ID 1004 failed TARGETS: TARGETS 7 exceeds max_allowed_targets 5
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1005 line=5 state=SCANNING targets=0
+2026-08-21 07:14:38,944 | WARNING | radar_system.radar.packet_validator | PACKET_ID 1005 failed LATENCY: Latency 180ms from PACKET_ID 1004 exceeds max_latency_ms 150
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=4093706240 velocity=1677721600
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1006 line=6 state=INVALID_STATE targets=1
+2026-08-21 07:14:38,944 | WARNING | radar_system.radar.packet_validator | PACKET_ID 1006 failed STATE: STATE 'INVALID_STATE' is not in allowed_states ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-08-21 07:14:38,944 | WARNING | radar_system.radar.radar_log_parser | Parse error line 7: Line does not match expected packet format (raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT)
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=4294967295 velocity=0
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1007 line=8 state=TRACKING targets=1
+2026-08-21 07:14:38,944 | WARNING | radar_system.radar.packet_validator | PACKET_ID 1007 failed LATENCY: Latency 250ms from PACKET_ID 1006 exceeds max_latency_ms 150
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.report_writer | OVERALL RESULT: FAIL
+2026-08-21 07:14:38,944 | INFO | radar_system.radar.validation_pipeline | Validation finished overall=FAIL parsed=7 passed=3 violations=4 parse_errors=1
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Reading stream /tmp/pytest-of-runner/pytest-0/test_sample_stream_reports_exp0/radar_stream.log
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1002 line=2 state=SCANNING targets=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=3892510720 velocity=4194304000
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1003 line=3 state=TRACKING targets=2
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=3490119680 velocity=738263040
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1004 line=4 state=TRACKING targets=7
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=0 velocity=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1005 line=5 state=SCANNING targets=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=4093706240 velocity=1677721600
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1006 line=6 state=INVALID_STATE targets=1
+2026-08-21 07:14:38,945 | WARNING | radar_system.radar.radar_log_parser | Parse error line 7: Line does not match expected packet format (raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT)
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=4294967295 velocity=0
+2026-08-21 07:14:38,945 | INFO | radar_system.radar.radar_log_parser | Parsed PACKET_ID 1007 line=8 state=TRACKING targets=1
+2026-08-21 07:14:38,947 | INFO | radar_system.tests | END tests/test_pipeline.py::test_sample_stream_reports_expected_failures

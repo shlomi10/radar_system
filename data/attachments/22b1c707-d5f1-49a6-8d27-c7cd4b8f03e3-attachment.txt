@@ -1,0 +1,4 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_init_and_scanning_require_zero_targets
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1010 failed TARGETS: STATE 'INIT' requires TARGETS to be 0, got 1
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1011 failed TARGETS: STATE 'SCANNING' requires TARGETS to be 0, got 2
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_init_and_scanning_require_zero_targets

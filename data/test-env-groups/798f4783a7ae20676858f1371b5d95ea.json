@@ -1,0 +1,1 @@
+{"id":"798f4783a7ae20676858f1371b5d95ea","fullName":"tests.test_packet_validator#test_invalid_state_is_reported","name":"STATE outside allowed_states is reported","status":"passed","testResultsByEnv":{"default":"bca6a9d16b3b1632c268011e3f5d2953"}}

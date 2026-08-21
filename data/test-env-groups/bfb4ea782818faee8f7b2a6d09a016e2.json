@@ -1,0 +1,1 @@
+{"id":"bfb4ea782818faee8f7b2a6d09a016e2","fullName":"tests.test_config_reader#test_load_config_rejects_invalid_json","name":"Invalid JSON is rejected","status":"passed","testResultsByEnv":{"default":"250d83913370ca6f54d3a23a246359b9"}}

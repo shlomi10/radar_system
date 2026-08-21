@@ -1,0 +1,2 @@
+2026-08-21 07:14:38,968 | INFO | radar_system.tests | START tests/test_radar_log_parser.py::test_parser_does_not_use_readlines
+2026-08-21 07:14:38,969 | INFO | radar_system.tests | END tests/test_radar_log_parser.py::test_parser_does_not_use_readlines

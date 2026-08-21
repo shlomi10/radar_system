@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_first_packet_has_no_latency_check
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 1001 passed all rules
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_first_packet_has_no_latency_check

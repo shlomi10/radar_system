@@ -1,0 +1,1 @@
+{"id":"03186f9fbe6c11782a98e710038a6e22","fullName":"tests.test_config_reader#test_load_config_reads_valid_file","name":"Valid config is loaded into RadarConfig","status":"passed","testResultsByEnv":{"default":"a601e5e84787da87829f78f8672fcab3"}}

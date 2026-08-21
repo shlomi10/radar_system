@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_iter_stream_missing_file
+ERROR    radar_system.radar.radar_log_parser:radar_log_parser.py:27 Radar stream file not found: /tmp/pytest-of-runner/pytest-0/test_iter_stream_missing_file0/missing.log
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_iter_stream_missing_file

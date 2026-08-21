@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:0-Line does not match expected packet format]
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[10:00:00.100 | PACKET_ID:1 | STATE:INIT | TARGETS:0-Line does not match expected packet format]
