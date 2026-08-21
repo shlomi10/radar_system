@@ -273,12 +273,13 @@ python main.py --config config/config.json --stream data/radar_stream.log --outp
 
 Image on Docker Hub: **[shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)**
 
-CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes `latest` plus the commit SHA. Anyone with Docker can run it without cloning the repo — `docker run` pulls from Hub if the image is not local.
+CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes **`latest`** plus an incrementing number: `:1`, `:2`, `:3`, … (next unused integer on Hub). `latest` always points at the newest build. Anyone with Docker can run it without cloning — `docker run` pulls from Hub if the image is not local.
 
 Run the validator from Hub:
 
 ```powershell
 docker run --rm shlomi10/radar-system
+docker run --rm shlomi10/radar-system:1
 ```
 
 Run the console UI from Hub (browser on the host):
@@ -424,7 +425,7 @@ Repo: [https://github.com/shlomi10/radar_system](https://github.com/shlomi10/rad
 
 Push to `main` or **Actions → CI → Run workflow**.
 
-CI on `main` (after pytest passes) pushes `shlomi10/radar-system` to Docker Hub. One-time Hub secrets in the GitHub repo:
+CI on `main` (after pytest passes) pushes `USERNAME/radar-system:latest` and `USERNAME/radar-system:N` (`1`, `2`, `3`, …) to Docker Hub.
 
 **Settings → Secrets and variables → Actions**
 
