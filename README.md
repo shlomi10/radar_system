@@ -9,6 +9,7 @@ Catch bad radar packets in a live stream — parse, decode, enforce, report.
   <img src="https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="pytest">
   <img src="https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white" alt="Allure">
   <a href="https://shlomi10.github.io/radar_system/"><img src="https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Allure"></a>
+  <a href="https://radar-system.runmydocker-app.com/"><img src="https://img.shields.io/badge/%E2%96%B6%20Live%20Console-1AFFC2?style=for-the-badge&logo=docker&logoColor=black" alt="Live Console"></a>
 </p>
 <p align="center">
   <img src="https://img.shields.io/badge/Runtime-stdlib%20only-10B981?style=for-the-badge&logo=python&logoColor=white" alt="stdlib">
@@ -29,7 +30,8 @@ A CLI automation tool that loads `config.json`, reads a radar hardware log **lin
 
 📦 Repo: [github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)  
 📊 Live Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)  
-🐳 Docker Hub: [hub.docker.com/r/shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)
+🐳 Docker Hub: [hub.docker.com/r/shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)  
+🖥️ Live console: [radar-system.runmydocker-app.com](https://radar-system.runmydocker-app.com/)
 
 ---
 
@@ -47,7 +49,7 @@ What you get:
 - 📝 Logger to `reports/logs/automation.log` — also attached to every Allure test
 - 🚀 GitHub Actions → Allure on GitHub Pages + radar report artifact
 - 🐳 Docker image — CLI, pytest, and UI. CI pushes `shlomi10/radar-system` to Docker Hub
-- 🖥️ Optional local console (`ui/`) — PPI scope + live PASS/FAIL table
+- 🖥️ Live console — [radar-system.runmydocker-app.com](https://radar-system.runmydocker-app.com/) runs that Hub image (port 8765)
 
 ---
 
@@ -96,7 +98,7 @@ flowchart TB
         ALOG["📒 reports/logs/automation.log"]
         ARES["📊 reports/allure-results"]
         PAGES["🌐 GitHub Pages Allure"]
-        CONSOLE["🌐 http://127.0.0.1:8765/"]
+        CONSOLE["🌐 local :8765<br/>radar-system.runmydocker-app.com"]
     end
 
     CFG --> MAIN
@@ -272,6 +274,10 @@ python main.py --config config/config.json --stream data/radar_stream.log --outp
 ## 🐳 Docker
 
 Image on Docker Hub: **[shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)**
+
+Live console (same image, pulled from Hub and hosted on RunMyDocker): **[https://radar-system.runmydocker-app.com/](https://radar-system.runmydocker-app.com/)**
+
+That URL does not clone this repo. RunMyDocker pulls `shlomi10/radar-system` from Docker Hub and exposes the default process (`python -m ui.app`) on port **8765**.
 
 CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes **`latest`** plus an incrementing number: `:1`, `:2`, `:3`, … (next unused integer on Hub). `latest` always points at the newest build. Anyone with Docker can run it without cloning — `docker run` pulls from Hub if the image is not local.
 
