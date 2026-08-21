@@ -275,20 +275,22 @@ Image on Docker Hub: **[shlomi10/radar-system](https://hub.docker.com/r/shlomi10
 
 CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes **`latest`** plus an incrementing number: `:1`, `:2`, `:3`, … (next unused integer on Hub). `latest` always points at the newest build. Anyone with Docker can run it without cloning — `docker run` pulls from Hub if the image is not local.
 
-Run the validator from Hub:
+The default process is the **radar console** (HTTP on port 8765, stays running). Hosts like RunMyDocker must map HTTPS to **8765** (or set `PORT` and map that). If the start command is still `python main.py`, the process prints a report and **exits**, so the public URL stays blank.
+
+Run the console from Hub:
 
 ```powershell
-docker run --rm shlomi10/radar-system
-docker run --rm shlomi10/radar-system:1
-```
-
-Run the console UI from Hub (browser on the host):
-
-```powershell
-docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
+docker run --rm -p 8765:8765 shlomi10/radar-system
 ```
 
 Open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). If a local `python -m ui.app` is already using 8765, stop it first.
+
+Run the validator from Hub (one-shot, then the container exits):
+
+```powershell
+docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
+docker run --rm --entrypoint python shlomi10/radar-system:1 main.py --config config/config.json --stream data/radar_stream.log
+```
 
 pytest from Hub:
 
@@ -299,10 +301,10 @@ docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v
 Write a report onto the host:
 
 ```powershell
-docker run --rm -v ${PWD}/reports:/app/reports shlomi10/radar-system --output
+docker run --rm -v ${PWD}/reports:/app/reports --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log --output
 ```
 
-In Docker Desktop: **Search** `shlomi10/radar-system` → **Pull** → **Run**. For the UI set host port `8765` and override the command to `python -m ui.app` (the default command is the CLI).
+In Docker Desktop: **Search** `shlomi10/radar-system` → **Pull** → **Run**, host port **8765**. The default command is now the console. On RunMyDocker set the HTTPS port to **8765** (or `PORT`) and do not override the start command to `main.py`.
 
 ### Build locally
 
@@ -310,17 +312,17 @@ Same image, without Hub. Start Docker Desktop first.
 
 ```bash
 docker build -t radar-system .
-docker run --rm radar-system
-docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
+docker run --rm -p 8765:8765 radar-system
+docker run --rm --entrypoint python radar-system main.py --config config/config.json --stream data/radar_stream.log
 docker run --rm --entrypoint python radar-system -m pytest -v
 ```
 
-`--output` still prints to the screen. With a volume, the file lands at `reports/radar/report.txt`. Extra args after the image name replace the default `CMD`.
+`--output` still prints to the screen. With a volume, the file lands at `reports/radar/report.txt`.
 
 | What | From Docker Hub | Local tag |
 | --- | --- | --- |
-| Validator | `docker run --rm shlomi10/radar-system` | `docker run --rm radar-system` |
-| Console UI | `docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app` | `docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app` |
+| Console UI | `docker run --rm -p 8765:8765 shlomi10/radar-system` | `docker run --rm -p 8765:8765 radar-system` |
+| Validator | `docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log` | `docker run --rm --entrypoint python radar-system main.py --config config/config.json --stream data/radar_stream.log` |
 | pytest | `docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v` | `docker run --rm --entrypoint python radar-system -m pytest -v` |
 
 ---
@@ -338,13 +340,13 @@ python -m ui.app
 From Docker Hub (no clone):
 
 ```powershell
-docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
+docker run --rm -p 8765:8765 shlomi10/radar-system
 ```
 
 From a local image (`docker build -t radar-system .`):
 
 ```powershell
-docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
+docker run --rm -p 8765:8765 radar-system
 ```
 
 Opens [http://127.0.0.1:8765/](http://127.0.0.1:8765/) on the **host**. Default inputs are `config/config.json` and `data/radar_stream.log`. You can also paste a config and a stream.
@@ -532,13 +534,10 @@ python -m pytest -v
 python -m pytest --alluredir=reports/allure-results
 allure generate reports/allure-results -o reports/allure-report --clean
 allure open reports/allure-report
-docker run --rm shlomi10/radar-system
-docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
+docker run --rm -p 8765:8765 shlomi10/radar-system
+docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
 docker build -t radar-system .
-docker run --rm radar-system
-docker run --rm -v ${PWD}/reports:/app/reports radar-system --output
-docker run --rm --entrypoint python radar-system -m pytest -v
-docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
+docker run --rm -p 8765:8765 radar-system
 python -m ui.app
 ```
 

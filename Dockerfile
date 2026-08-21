@@ -13,7 +13,7 @@ COPY ui/ ui/
 COPY main.py pytest.ini ./
 
 ENV RADAR_UI_HOST=0.0.0.0
+ENV PORT=8765
 EXPOSE 8765
 
-ENTRYPOINT ["python", "main.py"]
-CMD ["--config", "config/config.json", "--stream", "data/radar_stream.log"]
+ENTRYPOINT ["python", "-m", "ui.app"]

@@ -19,7 +19,7 @@ if str(ROOT) not in sys.path:
 from ui.runner import run_console
 
 HOST = os.environ.get("RADAR_UI_HOST", "127.0.0.1")
-PORT = int(os.environ.get("RADAR_UI_PORT", "8765"))
+PORT = int(os.environ.get("PORT") or os.environ.get("RADAR_UI_PORT") or "8765")
 DEFAULT_CONFIG = ROOT / "config" / "config.json"
 DEFAULT_STREAM = ROOT / "data" / "radar_stream.log"
 MIME = {
