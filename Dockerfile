@@ -9,7 +9,11 @@ COPY config/ config/
 COPY data/ data/
 COPY radar/ radar/
 COPY tests/ tests/
+COPY ui/ ui/
 COPY main.py pytest.ini ./
+
+ENV RADAR_UI_HOST=0.0.0.0
+EXPOSE 8765
 
 ENTRYPOINT ["python", "main.py"]
 CMD ["--config", "config/config.json", "--stream", "data/radar_stream.log"]

@@ -20,7 +20,7 @@ Catch bad radar packets in a live stream — parse, decode, enforce, report.
   <img src="https://img.shields.io/badge/GitHub%20Actions-CI%20%2B%20Pages-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="Actions">
   <img src="https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black" alt="venv">
   <img src="https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white" alt="Logging">
-  <img src="https://img.shields.io/badge/Docker-optional-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+  <img src="https://img.shields.io/badge/Docker-Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
   <img src="https://img.shields.io/badge/UI-radar%20console-1AFFC2?style=for-the-badge&logo=windowsterminal&logoColor=black" alt="UI">
   <img src="https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Report">
 </p>
@@ -28,7 +28,8 @@ Catch bad radar packets in a live stream — parse, decode, enforce, report.
 A CLI automation tool that loads `config.json`, reads a radar hardware log **line by line**, decodes an 8-byte hex `PAYLOAD` (unsigned little-endian Distance + Velocity), and enforces STATE / TARGETS / Latency rules while printing a live summary.
 
 📦 Repo: [github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)  
-📊 Live Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)
+📊 Live Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)  
+🐳 Docker Hub: [hub.docker.com/r/shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)
 
 ---
 
@@ -45,7 +46,7 @@ What you get:
 - 🧪 56 pytest tests with Allure epic / feature / story / severity
 - 📝 Logger to `reports/logs/automation.log` — also attached to every Allure test
 - 🚀 GitHub Actions → Allure on GitHub Pages + radar report artifact
-- 🐳 Optional Docker image — validator + pytest without a local venv
+- 🐳 Docker image — CLI, pytest, and UI. CI pushes `shlomi10/radar-system` to Docker Hub
 - 🖥️ Optional local console (`ui/`) — PPI scope + live PASS/FAIL table
 
 ---
@@ -199,8 +200,8 @@ radar-validator/
 | `main.py` | CLI entry point and runtime arguments |
 | `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
 | `.github/workflows/ci.yml` | pytest, Allure, radar report, GitHub Pages |
-| `Dockerfile` | Python 3.14-slim image: install deps, run `main.py` by default |
-| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, `ui/`, and caches out of the image |
+| `Dockerfile` | Image with CLI, pytest, and UI — CI publishes to Docker Hub |
+| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, and caches out of the image |
 | `ui/` | Local radar console (stdlib HTTP) — same `radar/` rules |
 
 ---
@@ -270,59 +271,82 @@ python main.py --config config/config.json --stream data/radar_stream.log --outp
 
 ## 🐳 Docker
 
-The image is `python:3.14-slim`. It installs `requirements.txt`, copies `config/`, `data/`, `radar/`, `tests/`, `main.py`, and `pytest.ini`, then runs the validator.
+Image on Docker Hub: **[shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)**
 
-Default command:
+CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes `latest` plus the commit SHA. Anyone with Docker can run it without cloning the repo — `docker run` pulls from Hub if the image is not local.
 
-```text
-python main.py --config config/config.json --stream data/radar_stream.log
+Run the validator from Hub:
+
+```powershell
+docker run --rm shlomi10/radar-system
 ```
 
-Start Docker Desktop first. If the daemon is off, `docker build` fails with a pipe / engine error.
+Run the console UI from Hub (browser on the host):
 
-Build:
+```powershell
+docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
+```
+
+Open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). If a local `python -m ui.app` is already using 8765, stop it first.
+
+pytest from Hub:
+
+```powershell
+docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v
+```
+
+Write a report onto the host:
+
+```powershell
+docker run --rm -v ${PWD}/reports:/app/reports shlomi10/radar-system --output
+```
+
+In Docker Desktop: **Search** `shlomi10/radar-system` → **Pull** → **Run**. For the UI set host port `8765` and override the command to `python -m ui.app` (the default command is the CLI).
+
+### Build locally
+
+Same image, without Hub. Start Docker Desktop first.
 
 ```bash
 docker build -t radar-system .
-```
-
-Validate the sample stream (stdout only):
-
-```bash
 docker run --rm radar-system
-```
-
-Write the report (and logs) to `reports/` on the host:
-
-```powershell
-docker run --rm -v ${PWD}/reports:/app/reports radar-system --config config/config.json --stream data/radar_stream.log --output
-```
-
-Same idea in bash / Git Bash:
-
-```bash
-docker run --rm -v "$PWD/reports:/app/reports" radar-system --config config/config.json --stream data/radar_stream.log --output
-```
-
-`--output` still prints to the screen. The file lands at `reports/radar/report.txt`. Extra args after the image name replace the default `CMD`.
-
-Run pytest inside the image:
-
-```bash
+docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
 docker run --rm --entrypoint python radar-system -m pytest -v
 ```
+
+`--output` still prints to the screen. With a volume, the file lands at `reports/radar/report.txt`. Extra args after the image name replace the default `CMD`.
+
+| What | From Docker Hub | Local tag |
+| --- | --- | --- |
+| Validator | `docker run --rm shlomi10/radar-system` | `docker run --rm radar-system` |
+| Console UI | `docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app` | `docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app` |
+| pytest | `docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v` | `docker run --rm --entrypoint python radar-system -m pytest -v` |
 
 ---
 
 ## 🖥️ Radar console UI
 
-Optional local console in `ui/`. It calls the same `radar/` parser and validator as the CLI — no extra packages.
+Optional console in `ui/`. Same `radar/` parser and validator as the CLI — no extra packages. Run it from a venv **or** from the Docker image (see the table in Docker).
+
+From a venv:
 
 ```bash
 python -m ui.app
 ```
 
-Opens [http://127.0.0.1:8765/](http://127.0.0.1:8765/). Default inputs are `config/config.json` and `data/radar_stream.log`. You can also paste a config and a stream.
+From Docker Hub (no clone):
+
+```powershell
+docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
+```
+
+From a local image (`docker build -t radar-system .`):
+
+```powershell
+docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
+```
+
+Opens [http://127.0.0.1:8765/](http://127.0.0.1:8765/) on the **host**. Default inputs are `config/config.json` and `data/radar_stream.log`. You can also paste a config and a stream.
 
 ![Radar console](assets/radar-console.png)
 
@@ -399,6 +423,15 @@ reports/
 Repo: [https://github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)
 
 Push to `main` or **Actions → CI → Run workflow**.
+
+CI on `main` (after pytest passes) pushes `shlomi10/radar-system` to Docker Hub. One-time Hub secrets in the GitHub repo:
+
+**Settings → Secrets and variables → Actions**
+
+| Secret | Value |
+| --- | --- |
+| `DOCKERHUB_USERNAME` | Docker Hub user (for example `shlomi10`) |
+| `DOCKERHUB_TOKEN` | Access token from [hub.docker.com](https://hub.docker.com) → Account Settings → Personal access tokens |
 
 One-time Pages setup: **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**.
 
@@ -498,10 +531,13 @@ python -m pytest -v
 python -m pytest --alluredir=reports/allure-results
 allure generate reports/allure-results -o reports/allure-report --clean
 allure open reports/allure-report
+docker run --rm shlomi10/radar-system
+docker run --rm -p 8765:8765 --entrypoint python shlomi10/radar-system -m ui.app
 docker build -t radar-system .
 docker run --rm radar-system
 docker run --rm -v ${PWD}/reports:/app/reports radar-system --output
 docker run --rm --entrypoint python radar-system -m pytest -v
+docker run --rm -p 8765:8765 --entrypoint python radar-system -m ui.app
 python -m ui.app
 ```
 

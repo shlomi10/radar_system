@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import sys
 import tempfile
 import webbrowser
@@ -17,8 +18,8 @@ if str(ROOT) not in sys.path:
 
 from ui.runner import run_console
 
-HOST = "127.0.0.1"
-PORT = 8765
+HOST = os.environ.get("RADAR_UI_HOST", "127.0.0.1")
+PORT = int(os.environ.get("RADAR_UI_PORT", "8765"))
 DEFAULT_CONFIG = ROOT / "config" / "config.json"
 DEFAULT_STREAM = ROOT / "data" / "radar_stream.log"
 MIME = {
@@ -144,12 +145,13 @@ class Handler(BaseHTTPRequestHandler):
 
 def main() -> None:
     server = ThreadingHTTPServer((HOST, PORT), Handler)
-    url = f"http://{HOST}:{PORT}/"
-    print(f"Radar console: {url}")
-    try:
-        webbrowser.open(url)
-    except OSError:
-        pass
+    open_url = f"http://127.0.0.1:{PORT}/"
+    print(f"Radar console: {open_url}  (bind {HOST}:{PORT})")
+    if HOST in {"127.0.0.1", "localhost"}:
+        try:
+            webbrowser.open(open_url)
+        except OSError:
+            pass
     try:
         server.serve_forever()
     except KeyboardInterrupt:
