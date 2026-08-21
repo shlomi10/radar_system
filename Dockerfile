@@ -16,4 +16,5 @@ ENV RADAR_UI_HOST=0.0.0.0
 ENV PORT=8765
 EXPOSE 8765
 
-ENTRYPOINT ["python", "-m", "ui.app"]
+ENTRYPOINT ["python"]
+CMD ["-m", "ui.app"]

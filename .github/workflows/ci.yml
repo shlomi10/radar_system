@@ -164,6 +164,7 @@ jobs:
             echo '```'
             echo "docker run --rm -p 8765:8765 ${{ secrets.DOCKERHUB_USERNAME }}/radar-system:${{ steps.version.outputs.number }}"
             echo "docker run --rm -p 8765:8765 ${{ secrets.DOCKERHUB_USERNAME }}/radar-system:latest"
-            echo "docker run --rm --entrypoint python ${{ secrets.DOCKERHUB_USERNAME }}/radar-system:latest main.py --config config/config.json --stream data/radar_stream.log"
+            echo "docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/radar-system:latest -m pytest -v"
+            echo "docker run --rm ${{ secrets.DOCKERHUB_USERNAME }}/radar-system:latest main.py --config config/config.json --stream data/radar_stream.log"
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"

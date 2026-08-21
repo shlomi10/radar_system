@@ -277,6 +277,8 @@ CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes **
 
 The default process is the **radar console** (HTTP on port 8765, stays running). Hosts like RunMyDocker must map HTTPS to **8765** (or set `PORT` and map that). If the start command is still `python main.py`, the process prints a report and **exits**, so the public URL stays blank.
 
+pytest in GitHub Actions is unchanged: the `report` job still runs `python -m pytest` on the runner. The image is built only after that job passes. In the container, `docker run IMAGE -m pytest -v` is the same 56 tests.
+
 Run the console from Hub:
 
 ```powershell
@@ -288,20 +290,20 @@ Open [http://127.0.0.1:8765/](http://127.0.0.1:8765/). If a local `python -m ui.
 Run the validator from Hub (one-shot, then the container exits):
 
 ```powershell
-docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
-docker run --rm --entrypoint python shlomi10/radar-system:1 main.py --config config/config.json --stream data/radar_stream.log
+docker run --rm shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
+docker run --rm shlomi10/radar-system:1 main.py --config config/config.json --stream data/radar_stream.log
 ```
 
 pytest from Hub:
 
 ```powershell
-docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v
+docker run --rm shlomi10/radar-system -m pytest -v
 ```
 
 Write a report onto the host:
 
 ```powershell
-docker run --rm -v ${PWD}/reports:/app/reports --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log --output
+docker run --rm -v ${PWD}/reports:/app/reports shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log --output
 ```
 
 In Docker Desktop: **Search** `shlomi10/radar-system` → **Pull** → **Run**, host port **8765**. The default command is now the console. On RunMyDocker set the HTTPS port to **8765** (or `PORT`) and do not override the start command to `main.py`.
@@ -313,8 +315,8 @@ Same image, without Hub. Start Docker Desktop first.
 ```bash
 docker build -t radar-system .
 docker run --rm -p 8765:8765 radar-system
-docker run --rm --entrypoint python radar-system main.py --config config/config.json --stream data/radar_stream.log
-docker run --rm --entrypoint python radar-system -m pytest -v
+docker run --rm radar-system main.py --config config/config.json --stream data/radar_stream.log
+docker run --rm radar-system -m pytest -v
 ```
 
 `--output` still prints to the screen. With a volume, the file lands at `reports/radar/report.txt`.
@@ -322,8 +324,8 @@ docker run --rm --entrypoint python radar-system -m pytest -v
 | What | From Docker Hub | Local tag |
 | --- | --- | --- |
 | Console UI | `docker run --rm -p 8765:8765 shlomi10/radar-system` | `docker run --rm -p 8765:8765 radar-system` |
-| Validator | `docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log` | `docker run --rm --entrypoint python radar-system main.py --config config/config.json --stream data/radar_stream.log` |
-| pytest | `docker run --rm --entrypoint python shlomi10/radar-system -m pytest -v` | `docker run --rm --entrypoint python radar-system -m pytest -v` |
+| Validator | `docker run --rm shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log` | `docker run --rm radar-system main.py --config config/config.json --stream data/radar_stream.log` |
+| pytest | `docker run --rm shlomi10/radar-system -m pytest -v` | `docker run --rm radar-system -m pytest -v` |
 
 ---
 
@@ -535,9 +537,10 @@ python -m pytest --alluredir=reports/allure-results
 allure generate reports/allure-results -o reports/allure-report --clean
 allure open reports/allure-report
 docker run --rm -p 8765:8765 shlomi10/radar-system
-docker run --rm --entrypoint python shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
+docker run --rm shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log
 docker build -t radar-system .
 docker run --rm -p 8765:8765 radar-system
+docker run --rm radar-system -m pytest -v
 python -m ui.app
 ```
 
