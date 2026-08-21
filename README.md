@@ -430,8 +430,8 @@ CI on `main` (after pytest passes) pushes `shlomi10/radar-system` to Docker Hub.
 
 | Secret | Value |
 | --- | --- |
-| `DOCKERHUB_USERNAME` | Docker Hub user (for example `shlomi10`) |
-| `DOCKERHUB_TOKEN` | Access token from [hub.docker.com](https://hub.docker.com) → Account Settings → Personal access tokens |
+| `DOCKERHUB_USERNAME` | Docker Hub user (must match the Hub account, for example `shlomi10`) |
+| `DOCKERHUB_TOKEN` | Access token with **Read & Write** (not Read-only) from [hub.docker.com](https://hub.docker.com) → Account Settings → Personal access tokens |
 
 One-time Pages setup: **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**.
 
