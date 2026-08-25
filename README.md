@@ -4,27 +4,11 @@
 
 Catch bad radar packets in a live stream — parse, decode, enforce, report.
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
-  <img src="https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white" alt="pytest">
-  <img src="https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white" alt="Allure">
-  <a href="https://shlomi10.github.io/radar_system/"><img src="https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white" alt="Live Allure"></a>
-  <a href="https://radar-system.runmydocker-app.com/"><img src="https://img.shields.io/badge/%E2%96%B6%20Live%20Console-1AFFC2?style=for-the-badge&logo=docker&logoColor=black" alt="Live Console"></a>
-</p>
-<p align="center">
-  <img src="https://img.shields.io/badge/Runtime-stdlib%20only-10B981?style=for-the-badge&logo=python&logoColor=white" alt="stdlib">
-  <img src="https://img.shields.io/badge/CLI-argparse-8B5CF6?style=for-the-badge&logo=windowsterminal&logoColor=white" alt="CLI">
-  <img src="https://img.shields.io/badge/Domain-Radar%20Automation-DC2626?style=for-the-badge&logo=target&logoColor=white" alt="Radar">
-  <img src="https://img.shields.io/badge/Streaming-O(1)%20memory-F59E0B?style=for-the-badge&logo=apachekafka&logoColor=white" alt="Streaming">
-</p>
-<p align="center">
-  <img src="https://img.shields.io/badge/GitHub%20Actions-CI%20%2B%20Pages-2088FF?style=for-the-badge&logo=githubactions&logoColor=white" alt="Actions">
-  <img src="https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black" alt="venv">
-  <img src="https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white" alt="Logging">
-  <img src="https://img.shields.io/badge/Docker-Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
-  <img src="https://img.shields.io/badge/UI-radar%20console-1AFFC2?style=for-the-badge&logo=windowsterminal&logoColor=black" alt="UI">
-  <img src="https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white" alt="Report">
-</p>
+![Python](https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white)![pytest](https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)![Allure](https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white)![Live Allure](https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white)![Live Console](https://img.shields.io/badge/%E2%96%B6%20Live%20Console-1AFFC2?style=for-the-badge&logo=docker&logoColor=black)
+
+![stdlib](https://img.shields.io/badge/Runtime-stdlib%20only-10B981?style=for-the-badge&logo=python&logoColor=white)![CLI](https://img.shields.io/badge/CLI-argparse-8B5CF6?style=for-the-badge&logo=windowsterminal&logoColor=white)![Radar](https://img.shields.io/badge/Domain-Radar%20Automation-DC2626?style=for-the-badge&logo=target&logoColor=white)![Streaming](https://img.shields.io/badge/Streaming-O(1)%20memory-F59E0B?style=for-the-badge&logo=apachekafka&logoColor=white)
+
+![Actions](https://img.shields.io/badge/GitHub%20Actions-CI%20%2B%20Pages-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)![venv](https://img.shields.io/badge/venv-isolated%20env-FACC15?style=for-the-badge&logo=python&logoColor=black)![Logging](https://img.shields.io/badge/Logging-automation.log-EC4899?style=for-the-badge&logo=datadog&logoColor=white)![Docker](https://img.shields.io/badge/Docker-Hub-2496ED?style=for-the-badge&logo=docker&logoColor=white)![UI](https://img.shields.io/badge/UI-radar%20console-1AFFC2?style=for-the-badge&logo=windowsterminal&logoColor=black)![Report](https://img.shields.io/badge/Report-PASS%20%2F%20FAIL-14B8A6?style=for-the-badge&logo=checkmarx&logoColor=white)
 
 A CLI automation tool that loads `config.json`, reads a radar hardware log **line by line**, decodes an 8-byte hex `PAYLOAD` (unsigned little-endian Distance + Velocity), and enforces STATE / TARGETS / Latency rules while printing a live summary.
 
@@ -34,6 +18,8 @@ A CLI automation tool that loads `config.json`, reads a radar hardware log **lin
 🖥️ Live console: [radar-system.runmydocker-app.com](https://radar-system.runmydocker-app.com/)
 
 ---
+
+
 
 ## 📌 Overview
 
@@ -52,6 +38,8 @@ What you get:
 - 🖥️ Live console — [radar-system.runmydocker-app.com](https://radar-system.runmydocker-app.com/) runs that Hub image (port 8765)
 
 ---
+
+
 
 ## 🏗️ Architecture
 
@@ -130,6 +118,8 @@ flowchart TB
     ARES --> PAGES
 ```
 
+
+
 pytest → Allure → GitHub Pages:
 
 ```mermaid
@@ -142,6 +132,8 @@ flowchart LR
     H --> CI["GitHub Actions<br/>on main"]
     CI --> P["shlomi10.github.io/radar_system"]
 ```
+
+
 
 Packet path inside the stream:
 
@@ -159,7 +151,11 @@ flowchart LR
     BAD --> N
 ```
 
+
+
 ---
+
+
 
 ## 🧱 Project structure
 
@@ -189,36 +185,44 @@ radar-validator/
 └── README.md
 ```
 
-| File | Responsibility |
-| --- | --- |
-| `radar/config_reader.py` | Load and validate `config.json` |
-| `radar/models.py` | Shared data models |
-| `radar/radar_log_parser.py` | Line-by-line log parsing |
-| `radar/payload_decoder.py` | Unsigned little-endian Distance and Velocity |
-| `radar/packet_validator.py` | Enforce STATE, TARGETS, and Latency rules |
-| `radar/report_writer.py` | Live report: write each result immediately, keep counters only |
-| `radar/validation_pipeline.py` | Constant-memory pipeline: previous packet + counters |
-| `radar/logger.py` | File and console logging |
-| `main.py` | CLI entry point and runtime arguments |
-| `tests/` | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
-| `.github/workflows/ci.yml` | pytest, Allure, radar report, GitHub Pages |
-| `Dockerfile` | Image with CLI, pytest, and UI — CI publishes to Docker Hub |
-| `.dockerignore` | Keep `.venv`, `.git`, `reports/`, and caches out of the image |
-| `ui/` | Local radar console (stdlib HTTP) — same `radar/` rules |
+
+| File                           | Responsibility                                                              |
+| ------------------------------ | --------------------------------------------------------------------------- |
+| `radar/config_reader.py`       | Load and validate `config.json`                                             |
+| `radar/models.py`              | Shared data models                                                          |
+| `radar/radar_log_parser.py`    | Line-by-line log parsing                                                    |
+| `radar/payload_decoder.py`     | Unsigned little-endian Distance and Velocity                                |
+| `radar/packet_validator.py`    | Enforce STATE, TARGETS, and Latency rules                                   |
+| `radar/report_writer.py`       | Live report: write each result immediately, keep counters only              |
+| `radar/validation_pipeline.py` | Constant-memory pipeline: previous packet + counters                        |
+| `radar/logger.py`              | File and console logging                                                    |
+| `main.py`                      | CLI entry point and runtime arguments                                       |
+| `tests/`                       | pytest + Allure — config, payload, parser, validator, pipeline, report, CLI |
+| `.github/workflows/ci.yml`     | pytest, Allure, radar report, GitHub Pages                                  |
+| `Dockerfile`                   | Image with CLI, pytest, and UI — CI publishes to Docker Hub                 |
+| `.dockerignore`                | Keep `.venv`, `.git`, `reports/`, and caches out of the image               |
+| `ui/`                          | Local radar console (stdlib HTTP) — same `radar/` rules                     |
+
 
 ---
+
+
 
 ## 🛠 Tech stack
 
-| Layer | Tools |
-| --- | --- |
-| Runtime | Python 3.14+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
-| Tests | pytest · allure-pytest |
-| CI | GitHub Actions · GitHub Pages |
-| Container | Docker |
-| UI | `ui/` — stdlib HTTP server + HTML/CSS/JS |
+
+| Layer     | Tools                                                                      |
+| --------- | -------------------------------------------------------------------------- |
+| Runtime   | Python 3.14+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
+| Tests     | pytest · allure-pytest                                                     |
+| CI        | GitHub Actions · GitHub Pages                                              |
+| Container | Docker                                                                     |
+| UI        | `ui/` — stdlib HTTP server + HTML/CSS/JS                                   |
+
 
 ---
+
+
 
 ## 🧾 Logging
 
@@ -228,9 +232,11 @@ reports/logs/automation.log
 
 `radar/logger.py` is used by config, payload, parser, validator, pipeline, report, and CLI.
 
-Every pytest test attaches its captured log to Allure as **`test-log`**.
+Every pytest test attaches its captured log to Allure as `test-log`.
 
 ---
+
+
 
 ## ✅ Prerequisites
 
@@ -240,6 +246,8 @@ Every pytest test attaches its captured log to Allure as **`test-log`**.
 - Node.js / npm and Java only if you want to open Allure HTML locally
 
 ---
+
+
 
 ## 📦 Installation
 
@@ -257,6 +265,8 @@ pip install -r requirements.txt
 
 ---
 
+
+
 ## ▶️ Running the validator
 
 - `--config` — JSON rules, for example `config/config.json`
@@ -271,6 +281,8 @@ python main.py --config config/config.json --stream data/radar_stream.log --outp
 
 ---
 
+
+
 ## 🐳 Docker
 
 Image on Docker Hub: **[shlomi10/radar-system](https://hub.docker.com/r/shlomi10/radar-system)**
@@ -279,7 +291,7 @@ Live console (same image, pulled from Hub and hosted on RunMyDocker): **[https:/
 
 That URL does not clone this repo. RunMyDocker pulls `shlomi10/radar-system` from Docker Hub and exposes the default process (`python -m ui.app`) on port **8765**.
 
-CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes **`latest`** plus an incrementing number: `:1`, `:2`, `:3`, … (next unused integer on Hub). `latest` always points at the newest build. Anyone with Docker can run it without cloning — `docker run` pulls from Hub if the image is not local.
+CI builds it on every green `main` run (linux/amd64 + linux/arm64) and pushes `latest` plus an incrementing number: `:1`, `:2`, `:3`, … (next unused integer on Hub). `latest` always points at the newest build. Anyone with Docker can run it without cloning — `docker run` pulls from Hub if the image is not local.
 
 The default process is the **radar console** (HTTP on port 8765, stays running). Hosts like RunMyDocker must map HTTPS to **8765** (or set `PORT` and map that). If the start command is still `python main.py`, the process prints a report and **exits**, so the public URL stays blank.
 
@@ -327,13 +339,17 @@ docker run --rm radar-system -m pytest -v
 
 `--output` still prints to the screen. With a volume, the file lands at `reports/radar/report.txt`.
 
-| What | From Docker Hub | Local tag |
-| --- | --- | --- |
-| Console UI | `docker run --rm -p 8765:8765 shlomi10/radar-system` | `docker run --rm -p 8765:8765 radar-system` |
-| Validator | `docker run --rm shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log` | `docker run --rm radar-system main.py --config config/config.json --stream data/radar_stream.log` |
-| pytest | `docker run --rm shlomi10/radar-system -m pytest -v` | `docker run --rm radar-system -m pytest -v` |
+
+| What       | From Docker Hub                                                                                            | Local tag                                                                                         |
+| ---------- | ---------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| Console UI | `docker run --rm -p 8765:8765 shlomi10/radar-system`                                                       | `docker run --rm -p 8765:8765 radar-system`                                                       |
+| Validator  | `docker run --rm shlomi10/radar-system main.py --config config/config.json --stream data/radar_stream.log` | `docker run --rm radar-system main.py --config config/config.json --stream data/radar_stream.log` |
+| pytest     | `docker run --rm shlomi10/radar-system -m pytest -v`                                                       | `docker run --rm radar-system -m pytest -v`                                                       |
+
 
 ---
+
+
 
 ## 🖥️ Radar console UI
 
@@ -372,6 +388,8 @@ This view is for a sample-sized stream (capped at 5000 events). Large streams st
 
 ---
 
+
+
 ## 🧪 Running tests
 
 pytest is the automation framework. Runtime validation still uses the standard library only.
@@ -385,34 +403,40 @@ python -m pytest tests/test_pipeline.py
 
 56 tests. Full titles live in Allure: [shlomi10.github.io/radar_system](https://shlomi10.github.io/radar_system/)
 
-| File | Tests | What they cover |
-| --- | ---: | --- |
-| `tests/test_config_reader.py` | 16 | Load `config.json`; any non-empty `system_mode`; missing keys; wrong types; empty / blank `allowed_states` |
-| `tests/test_payload_decoder.py` | 9 | Unsigned little-endian Distance + Velocity; sample hex; invalid length / non-hex |
-| `tests/test_radar_log_parser.py` | 11 | Field split; corrupted line does not stop the stream; no `readlines()`; blank lines; bad timestamp / STATE / TARGETS / PACKET_ID |
-| `tests/test_packet_validator.py` | 9 | STATE, TARGETS, INIT/SCANNING=0, first-packet latency skip, max latency, midnight wrap, multiple violations |
-| `tests/test_pipeline.py` | 4 | Sample log FAIL (TARGETS, LATENCY, STATE, parse); clean stream PASS; parse error does not reset latency; shipped files |
-| `tests/test_report_writer.py` | 2 | `[PASS]` / `[FAIL]` live report and counters |
-| `tests/test_cli.py` | 5 | Required args; `--output` path; missing files exit 1; stream FAIL still exit 0 |
+
+| File                             | Tests | What they cover                                                                                                                  |
+| -------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------- |
+| `tests/test_config_reader.py`    | 16    | Load `config.json`; any non-empty `system_mode`; missing keys; wrong types; empty / blank `allowed_states`                       |
+| `tests/test_payload_decoder.py`  | 9     | Unsigned little-endian Distance + Velocity; sample hex; invalid length / non-hex                                                 |
+| `tests/test_radar_log_parser.py` | 11    | Field split; corrupted line does not stop the stream; no `readlines()`; blank lines; bad timestamp / STATE / TARGETS / PACKET_ID |
+| `tests/test_packet_validator.py` | 9     | STATE, TARGETS, INIT/SCANNING=0, first-packet latency skip, max latency, midnight wrap, multiple violations                      |
+| `tests/test_pipeline.py`         | 4     | Sample log FAIL (TARGETS, LATENCY, STATE, parse); clean stream PASS; parse error does not reset latency; shipped files           |
+| `tests/test_report_writer.py`    | 2     | `[PASS]` / `[FAIL]` live report and counters                                                                                     |
+| `tests/test_cli.py`              | 5     | Required args; `--output` path; missing files exit 1; stream FAIL still exit 0                                                   |
+
 
 ---
+
+
 
 ## 📊 Allure report
 
 Live CI report — republished on every `main` run:
 
-**https://shlomi10.github.io/radar_system/**
+**[https://shlomi10.github.io/radar_system/](https://shlomi10.github.io/radar_system/)**
 
 Each test includes a `test-log` attachment.
 
 ```bash
 python -m pytest --alluredir=reports/allure-results
-allure generate reports/allure-results -o reports/allure-report --clean
+allure generate reports/allure-results -o reports/allure-report
 allure open reports/allure-report
 allure serve reports/allure-results
 ```
 
 ---
+
+
 
 ## 📁 Runtime artifacts
 
@@ -429,6 +453,8 @@ reports/
 
 ---
 
+
+
 ## 🚀 GitHub Actions
 
 Repo: [https://github.com/shlomi10/radar_system](https://github.com/shlomi10/radar_system)
@@ -439,12 +465,14 @@ CI on `main` (after pytest passes) pushes `USERNAME/radar-system:latest` and `US
 
 **Settings → Secrets and variables → Actions**
 
-| Secret | Value |
-| --- | --- |
-| `DOCKERHUB_USERNAME` | Docker Hub user (must match the Hub account, for example `shlomi10`) |
-| `DOCKERHUB_TOKEN` | Access token with **Read & Write** (not Read-only) from [hub.docker.com](https://hub.docker.com) → Account Settings → Personal access tokens |
 
-One-time Pages setup: **Settings → Pages → Deploy from a branch → `gh-pages` / root → Save**.
+| Secret               | Value                                                                                                                                        |
+| -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| `DOCKERHUB_USERNAME` | Docker Hub user (must match the Hub account, for example `shlomi10`)                                                                         |
+| `DOCKERHUB_TOKEN`    | Access token with **Read & Write** (not Read-only) from [hub.docker.com](https://hub.docker.com) → Account Settings → Personal access tokens |
+
+
+One-time Pages setup: **Settings → Pages → Deploy from a branch →** `gh-pages` **/ root → Save**.
 
 The sample log is expected to finish with `OVERALL RESULT: FAIL` — that is a successful program run, not a CI crash.
 
@@ -458,11 +486,15 @@ How to read the radar report in CI:
 
 ---
 
+
+
 ## 📡 Large-stream reading
 
 The stream is an iterator over the file object (`for raw_line in handle`). No `readlines()`, no full-file load, no packet list, no accumulated failure list. Memory keeps the previous packet (latency), four counters (`packets_parsed`, `packets_passed`, `violation_count`, `parse_error_count`), and the current line. Failures are written to the report as they happen.
 
 ---
+
+
 
 ## 📄 File formats
 
@@ -488,6 +520,8 @@ HH:MM:SS.mmm | PACKET_ID:<id> | STATE:<state> | TARGETS:<n> | PAYLOAD:<16 hex ch
 
 ---
 
+
+
 ## 🛡️ Validation rules
 
 1. `STATE` must be in `allowed_states`
@@ -499,6 +533,8 @@ A corrupted line is a parse error; the stream continues. Latency is never comput
 
 ---
 
+
+
 ## 📈 Sample file results
 
 Log file: `data/radar_stream.log`
@@ -507,19 +543,23 @@ Log file: `data/radar_stream.log`
 
 ❌ Failed:
 
-| Log line | Packet | Why |
-| --- | --- | --- |
-| 4 | **1004** | `TARGETS=7` exceeds max 5 |
-| 5 | **1005** | latency 180ms from 1004 > 150 |
-| 6 | **1006** | `INVALID_STATE` not in allowed_states |
-| 7 | — | malformed line, no PACKET_ID |
-| 8 | **1007** | latency 250ms from 1006 > 150 |
+
+| Log line | Packet   | Why                                   |
+| -------- | -------- | ------------------------------------- |
+| 4        | **1004** | `TARGETS=7` exceeds max 5             |
+| 5        | **1005** | latency 180ms from 1004 > 150         |
+| 6        | **1006** | `INVALID_STATE` not in allowed_states |
+| 7        | —        | malformed line, no PACKET_ID          |
+| 8        | **1007** | latency 250ms from 1006 > 150         |
+
 
 `OVERALL RESULT: FAIL`
 
 Example payload: `000003E8` / `000000FA` → Distance=**3892510720**, Velocity=**4194304000** (unsigned LE).
 
 ---
+
+
 
 ## 🧷 Pytest configuration
 
@@ -531,6 +571,8 @@ addopts = -ra --alluredir=reports/allure-results
 ```
 
 ---
+
+
 
 ## ✅ Useful commands
 
@@ -551,6 +593,8 @@ python -m ui.app
 ```
 
 ---
+
+
 
 ## ❤️ Made By
 
