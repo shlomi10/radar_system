@@ -1,0 +1,1 @@
+{"id":"5d32e65629e7472837d40e50be45a342","fullName":"tests.test_config_reader#test_load_config_rejects_bool_as_int","name":"bool is not accepted as int","status":"passed","testResultsByEnv":{"default":"2526523088feeb4fff3221a2a1548e71"}}

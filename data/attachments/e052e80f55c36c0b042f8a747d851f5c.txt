@@ -1,0 +1,22 @@
+================================================================
+RADAR STREAM VALIDATION REPORT
+================================================================
+System mode: AIR_TO_AIR
+Max allowed targets: 5
+Max latency (ms): 150
+Allowed states: ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+
+LIVE RESULTS  ([PASS] ok  |  [FAIL] problem in this log line)
+----------------------------------------------------------------
+[PASS] Line 1 | PACKET_ID 1001 | 10:00:00.100 | STATE=INIT | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+[FAIL] Line 2 | PACKET_ID 1004 | 10:00:00.400 | STATE=TRACKING | TARGETS=7 | DISTANCE=0 | VELOCITY=0
+         TARGETS: TARGETS 7 exceeds max_allowed_targets 5
+         LATENCY: Latency 300ms from PACKET_ID 1001 exceeds max_latency_ms 150
+
+================================================================
+Packets parsed: 2
+Packets that passed all rules: 1
+Rule violations: 2
+Parse errors: 0
+OVERALL RESULT: FAIL
+================================================================

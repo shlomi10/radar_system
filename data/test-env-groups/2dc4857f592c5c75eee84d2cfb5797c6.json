@@ -1,0 +1,1 @@
+{"id":"2dc4857f592c5c75eee84d2cfb5797c6","fullName":"tests.test_config_reader#test_load_config_rejects_negative_limits","name":"Negative numeric limits are rejected","status":"passed","testResultsByEnv":{"default":"0fcbf83ece376ee4bd1ff4d199d8d60f"}}

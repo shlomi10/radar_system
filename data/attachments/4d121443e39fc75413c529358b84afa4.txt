@@ -1,0 +1,16 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_pipeline.py::test_clean_stream_reports_overall_pass
+INFO     radar_system.radar.config_reader:config_reader.py:56 Loaded config from /tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+INFO     radar_system.radar.validation_pipeline:validation_pipeline.py:27 Starting validation stream=/tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/radar_stream.log output=/tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/report.txt
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:30 Reading stream /tmp/pytest-of-runner/pytest-0/test_clean_stream_reports_over0/radar_stream.log
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 1001 passed all rules
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1002 line=2 state=SCANNING targets=0
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 1002 passed all rules
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=1000 velocity=250
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1003 line=3 state=TRACKING targets=2
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 1003 passed all rules
+INFO     radar_system.radar.report_writer:report_writer.py:84 OVERALL RESULT: PASS
+INFO     radar_system.radar.validation_pipeline:validation_pipeline.py:51 Validation finished overall=PASS parsed=3 passed=3 violations=0 parse_errors=0
+INFO     radar_system.tests:conftest.py:58 END tests/test_pipeline.py::test_clean_stream_reports_overall_pass

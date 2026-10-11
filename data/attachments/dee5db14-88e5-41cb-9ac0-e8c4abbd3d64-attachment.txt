@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_config_reader.py::test_load_config_missing_file
+ERROR    radar_system.radar.config_reader:config_reader.py:21 Config file not found: /tmp/pytest-of-runner/pytest-0/test_load_config_missing_file0/missing.json
+INFO     radar_system.tests:conftest.py:58 END tests/test_config_reader.py::test_load_config_missing_file

@@ -1,0 +1,4 @@
+2026-10-11 07:18:20,082 | INFO | radar_system.tests | START tests/test_packet_validator.py::test_latency_handles_midnight_wrap
+2026-10-11 07:18:20,082 | INFO | radar_system.radar.packet_validator | PACKET_ID 2 passed all rules
+2026-10-11 07:18:20,082 | WARNING | radar_system.radar.packet_validator | PACKET_ID 3 failed LATENCY: Latency 300ms from PACKET_ID 1 exceeds max_latency_ms 150
+2026-10-11 07:18:20,083 | INFO | radar_system.tests | END tests/test_packet_validator.py::test_latency_handles_midnight_wrap

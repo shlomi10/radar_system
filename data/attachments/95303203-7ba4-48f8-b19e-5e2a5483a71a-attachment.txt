@@ -1,0 +1,2 @@
+2026-10-11 07:18:20,055 | INFO | radar_system.tests | START tests/test_config_reader.py::test_load_config_rejects_negative_limits[max_latency_ms]
+2026-10-11 07:18:20,057 | INFO | radar_system.tests | END tests/test_config_reader.py::test_load_config_rejects_negative_limits[max_latency_ms]

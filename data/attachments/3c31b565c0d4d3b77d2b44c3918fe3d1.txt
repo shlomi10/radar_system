@@ -1,0 +1,3 @@
+2026-10-11 07:18:20,097 | INFO | radar_system.tests | START tests/test_payload_decoder.py::test_decode_payload_unsigned_little_endian[E8030000FA000000-1000-250]
+2026-10-11 07:18:20,098 | INFO | radar_system.radar.payload_decoder | Decoded PAYLOAD distance=1000 velocity=250
+2026-10-11 07:18:20,099 | INFO | radar_system.tests | END tests/test_payload_decoder.py::test_decode_payload_unsigned_little_endian[E8030000FA000000-1000-250]

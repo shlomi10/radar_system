@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_payload_decoder.py::test_decode_payload_rejects_invalid_values[000003E8]
+WARNING  radar_system.radar.payload_decoder:payload_decoder.py:20 Invalid PAYLOAD length: 8
+INFO     radar_system.tests:conftest.py:58 END tests/test_payload_decoder.py::test_decode_payload_rejects_invalid_values[000003E8]

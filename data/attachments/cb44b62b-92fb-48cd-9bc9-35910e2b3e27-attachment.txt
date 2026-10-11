@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_cli.py::test_parse_args_output_flag_uses_default_report
+INFO     radar_system.tests:conftest.py:58 END tests/test_cli.py::test_parse_args_output_flag_uses_default_report

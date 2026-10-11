@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[not-a-time | PACKET_ID:1 | STATE:INIT | TARGETS:0 | PAYLOAD:0000000000000000-Invalid timestamp]
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_parse_line_rejects_invalid_fields[not-a-time | PACKET_ID:1 | STATE:INIT | TARGETS:0 | PAYLOAD:0000000000000000-Invalid timestamp]

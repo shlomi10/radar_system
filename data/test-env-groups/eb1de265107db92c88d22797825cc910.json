@@ -1,0 +1,1 @@
+{"id":"eb1de265107db92c88d22797825cc910","fullName":"tests.test_cli#test_main_valid_run_returns_0","name":"A valid run returns exit code 0 even when the stream FAILs","status":"passed","testResultsByEnv":{"default":"265aec433118e4badefdb3b0ae972a98"}}

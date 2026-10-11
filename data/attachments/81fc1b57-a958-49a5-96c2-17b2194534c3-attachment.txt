@@ -1,0 +1,2 @@
+2026-10-11 07:18:19,979 | INFO | radar_system.tests | START tests/test_cli.py::test_parse_args_output_flag_uses_default_report
+2026-10-11 07:18:19,980 | INFO | radar_system.tests | END tests/test_cli.py::test_parse_args_output_flag_uses_default_report

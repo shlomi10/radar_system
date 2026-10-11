@@ -1,0 +1,7 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_iter_stream_skips_blank_lines
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:30 Reading stream /tmp/pytest-of-runner/pytest-0/test_iter_stream_skips_blank_l0/radar_stream.log
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1001 line=1 state=INIT targets=0
+INFO     radar_system.radar.payload_decoder:payload_decoder.py:33 Decoded PAYLOAD distance=0 velocity=0
+INFO     radar_system.radar.radar_log_parser:radar_log_parser.py:38 Parsed PACKET_ID 1002 line=4 state=SCANNING targets=0
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_iter_stream_skips_blank_lines

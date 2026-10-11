@@ -1,0 +1,3 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_latency_above_max_is_reported
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 1005 failed LATENCY: Latency 180ms from PACKET_ID 1004 exceeds max_latency_ms 150
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_latency_above_max_is_reported

@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_cli.py::test_resolve_output_bare_filename_goes_under_reports_radar
+INFO     radar_system.tests:conftest.py:58 END tests/test_cli.py::test_resolve_output_bare_filename_goes_under_reports_radar

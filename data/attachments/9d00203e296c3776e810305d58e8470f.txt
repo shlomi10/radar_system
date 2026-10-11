@@ -1,0 +1,2 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_radar_log_parser.py::test_parser_does_not_use_readlines
+INFO     radar_system.tests:conftest.py:58 END tests/test_radar_log_parser.py::test_parser_does_not_use_readlines

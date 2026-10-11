@@ -1,0 +1,3 @@
+2026-10-11 07:18:20,009 | INFO | radar_system.tests | START tests/test_config_reader.py::test_load_config_reads_valid_file
+2026-10-11 07:18:20,010 | INFO | radar_system.radar.config_reader | Loaded config from /tmp/pytest-of-runner/pytest-0/test_load_config_reads_valid_f0/config.json | mode=AIR_TO_AIR max_targets=5 max_latency_ms=150 states=['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+2026-10-11 07:18:20,011 | INFO | radar_system.tests | END tests/test_config_reader.py::test_load_config_reads_valid_file

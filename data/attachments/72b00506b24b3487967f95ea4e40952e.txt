@@ -1,0 +1,31 @@
+================================================================
+RADAR STREAM VALIDATION REPORT
+================================================================
+System mode: AIR_TO_AIR
+Max allowed targets: 5
+Max latency (ms): 150
+Allowed states: ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+
+LIVE RESULTS  ([PASS] ok  |  [FAIL] problem in this log line)
+----------------------------------------------------------------
+[PASS] Line 1 | PACKET_ID 1001 | 10:00:00.100 | STATE=INIT | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+[PASS] Line 2 | PACKET_ID 1002 | 10:00:00.200 | STATE=SCANNING | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+[PASS] Line 3 | PACKET_ID 1003 | 10:00:00.320 | STATE=TRACKING | TARGETS=2 | DISTANCE=3892510720 | VELOCITY=4194304000
+[FAIL] Line 4 | PACKET_ID 1004 | 10:00:00.400 | STATE=TRACKING | TARGETS=7 | DISTANCE=3490119680 | VELOCITY=738263040
+         TARGETS: TARGETS 7 exceeds max_allowed_targets 5
+[FAIL] Line 5 | PACKET_ID 1005 | 10:00:00.580 | STATE=SCANNING | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+         LATENCY: Latency 180ms from PACKET_ID 1004 exceeds max_latency_ms 150
+[FAIL] Line 6 | PACKET_ID 1006 | 10:00:00.650 | STATE=INVALID_STATE | TARGETS=1 | DISTANCE=4093706240 | VELOCITY=1677721600
+         STATE: STATE 'INVALID_STATE' is not in allowed_states ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+[FAIL] Line 7 | PARSE | Line does not match expected packet format
+         raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT
+[FAIL] Line 8 | PACKET_ID 1007 | 10:00:00.900 | STATE=TRACKING | TARGETS=1 | DISTANCE=4294967295 | VELOCITY=0
+         LATENCY: Latency 250ms from PACKET_ID 1006 exceeds max_latency_ms 150
+
+================================================================
+Packets parsed: 7
+Packets that passed all rules: 3
+Rule violations: 4
+Parse errors: 1
+OVERALL RESULT: FAIL
+================================================================

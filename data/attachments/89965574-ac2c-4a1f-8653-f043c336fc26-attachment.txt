@@ -1,0 +1,22 @@
+================================================================
+RADAR STREAM VALIDATION REPORT
+================================================================
+System mode: AIR_TO_AIR
+Max allowed targets: 5
+Max latency (ms): 150
+Allowed states: ['INIT', 'SCANNING', 'TRACKING', 'ERROR']
+
+LIVE RESULTS  ([PASS] ok  |  [FAIL] problem in this log line)
+----------------------------------------------------------------
+[PASS] Line 1 | PACKET_ID 1001 | 10:00:00.100 | STATE=INIT | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+[FAIL] Line 2 | PARSE | Line does not match expected packet format
+         raw: INVALID_CORRUPTED_LINE_WITHOUT_FORMAT
+[PASS] Line 3 | PACKET_ID 1002 | 10:00:00.200 | STATE=SCANNING | TARGETS=0 | DISTANCE=0 | VELOCITY=0
+
+================================================================
+Packets parsed: 2
+Packets that passed all rules: 2
+Rule violations: 0
+Parse errors: 1
+OVERALL RESULT: FAIL
+================================================================

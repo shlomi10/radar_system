@@ -1,0 +1,4 @@
+INFO     radar_system.tests:conftest.py:56 START tests/test_packet_validator.py::test_latency_handles_midnight_wrap
+INFO     radar_system.radar.packet_validator:packet_validator.py:34 PACKET_ID 2 passed all rules
+WARNING  radar_system.radar.packet_validator:packet_validator.py:27 PACKET_ID 3 failed LATENCY: Latency 300ms from PACKET_ID 1 exceeds max_latency_ms 150
+INFO     radar_system.tests:conftest.py:58 END tests/test_packet_validator.py::test_latency_handles_midnight_wrap
