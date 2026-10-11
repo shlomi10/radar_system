@@ -4,7 +4,7 @@
 
 Catch bad radar packets in a live stream — parse, decode, enforce, report.
 
-![Python](https://img.shields.io/badge/Python-3.14+-3776AB?style=for-the-badge&logo=python&logoColor=white)![pytest](https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)![Allure](https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white)![Live Allure](https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white)![Live Console](https://img.shields.io/badge/%E2%96%B6%20Live%20Console-1AFFC2?style=for-the-badge&logo=docker&logoColor=black)
+![Python](https://img.shields.io/badge/Python-3.15+-3776AB?style=for-the-badge&logo=python&logoColor=white)![pytest](https://img.shields.io/badge/pytest-56%20tests-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)![Allure](https://img.shields.io/badge/Allure-Test%20Reports-FF6A00?style=for-the-badge&logo=allure&logoColor=white)![Live Allure](https://img.shields.io/badge/%E2%96%B6%20Live%20Allure-7C3AED?style=for-the-badge&logo=githubpages&logoColor=white)![Live Console](https://img.shields.io/badge/%E2%96%B6%20Live%20Console-1AFFC2?style=for-the-badge&logo=docker&logoColor=black)
 
 ![stdlib](https://img.shields.io/badge/Runtime-stdlib%20only-10B981?style=for-the-badge&logo=python&logoColor=white)![CLI](https://img.shields.io/badge/CLI-argparse-8B5CF6?style=for-the-badge&logo=windowsterminal&logoColor=white)![Radar](https://img.shields.io/badge/Domain-Radar%20Automation-DC2626?style=for-the-badge&logo=target&logoColor=white)![Streaming](https://img.shields.io/badge/Streaming-O(1)%20memory-F59E0B?style=for-the-badge&logo=apachekafka&logoColor=white)
 
@@ -213,7 +213,7 @@ radar-validator/
 
 | Layer     | Tools                                                                      |
 | --------- | -------------------------------------------------------------------------- |
-| Runtime   | Python 3.14+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
+| Runtime   | Python 3.15+ stdlib (`argparse`, `json`, `pathlib`, `datetime`, `logging`) |
 | Tests     | pytest · allure-pytest                                                     |
 | CI        | GitHub Actions · GitHub Pages                                              |
 | Container | Docker                                                                     |
@@ -240,7 +240,7 @@ Every pytest test attaches its captured log to Allure as `test-log`.
 
 ## ✅ Prerequisites
 
-- Python 3.14+
+- Python 3.15+
 - Git
 - Docker Desktop (daemon running) only if you want to run the image
 - Node.js / npm and Java only if you want to open Allure HTML locally
